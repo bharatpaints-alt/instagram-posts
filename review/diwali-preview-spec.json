@@ -1,0 +1,179 @@
+{
+  "voice": "hm_omega:0.65,am_onyx:0.35",
+  "music_seed": 3,
+  "brand": {
+    "logo_small": "engine/assets/logo_small.png",
+    "logo_big": "engine/assets/logo_big.png",
+    "whatsapp": "93558 60009",
+    "address": "SCO 30, Bhagat Singh Market, Karnal",
+    "tagline1": "Rango ki duniya main rakhe kadam",
+    "tagline2": "Bharat Paints ke sang!",
+    "handle": "@bharatpaints_1976"
+  },
+  "scenes": [
+    {
+      "media": "new/IMG_2860.jpeg",
+      "crop": [
+        1479,
+        2629,
+        153,
+        0
+      ],
+      "zoom": "in",
+      "head": [
+        [
+          "DIWALI SE PEHLE",
+          "white"
+        ],
+        [
+          "GHAR KA NAYA LOOK?",
+          "yellow"
+        ]
+      ],
+      "caption": "PEHLE: hamari dukaan, aaj",
+      "vo": [
+        [
+          "दिवाली से पहले... अपने घर का नया लुक देखना है?",
+          "hi"
+        ]
+      ],
+      "speed": 0.92,
+      "pause": 0.45
+    },
+    {
+      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+      "zoom": "out",
+      "head": [
+        [
+          "PAINT SE PEHLE HI",
+          "white"
+        ],
+        [
+          "DEKHO NAYA LOOK!",
+          "yellow"
+        ]
+      ],
+      "sub": "Sample preview",
+      "caption": "BAAD: transformation preview",
+      "vo": [
+        [
+          "ये देखिए! हमारी अपनी दुकान... पेंट से पहले ही, नया लुक तैयार!",
+          "hi"
+        ]
+      ]
+    },
+    {
+      "media": "new/IMG_2860.jpeg",
+      "crop": [
+        1479,
+        2629,
+        153,
+        0
+      ],
+      "zoom": "out",
+      "pan": 0.3,
+      "head": [
+        [
+          "APNE GHAR KI",
+          "white"
+        ],
+        [
+          "PHOTO BHEJO",
+          "yellow"
+        ]
+      ],
+      "sub": "Form bharo • Photo lagao",
+      "caption": "Aapke ghar ki photo se, aapka naya look",
+      "vo": [
+        [
+          "आप भी, एक छोटा सा फ़ॉर्म भरिए, और अपने घर की फ़ोटो भेजिए।",
+          "hi"
+        ]
+      ]
+    },
+    {
+      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+      "crop": [
+        841,
+        1402,
+        140,
+        0
+      ],
+      "zoom": "in",
+      "head": [
+        [
+          "1 DIN MEIN",
+          "yellow"
+        ],
+        [
+          "TRANSFORMATION PIC",
+          "white"
+        ]
+      ],
+      "sub": "FREE • Sirf Diwali tak",
+      "caption": "Bilkul free — sirf Diwali tak!",
+      "vo": [
+        [
+          "सिर्फ़ एक दिन में, आपके घर की",
+          "hi"
+        ],
+        [
+          "transformation",
+          "en"
+        ],
+        [
+          "फ़ोटो! बिल्कुल",
+          "hi"
+        ],
+        [
+          "free!",
+          "en"
+        ],
+        [
+          "सिर्फ़ दिवाली तक!",
+          "hi"
+        ]
+      ],
+      "pause": 0.45
+    }
+  ],
+  "cta": {
+    "title": "Likhein: \"GIO PAINTS\"",
+    "subtitle": "Free preview • Sirf Diwali tak",
+    "button": "WhatsApp karein",
+    "vo": [
+      [
+        "अभी",
+        "hi"
+      ],
+      [
+        "WhatsApp",
+        "en"
+      ],
+      [
+        "पर लिखिए... जियो",
+        "hi"
+      ],
+      [
+        "Paints!",
+        "en"
+      ],
+      [
+        "नंबर स्क्रीन पर है।",
+        "hi"
+      ],
+      [
+        "रंगों की दुनिया में रखें कदम... भारत",
+        "hi"
+      ],
+      [
+        "Paints",
+        "en"
+      ],
+      [
+        "के संग!",
+        "hi"
+      ]
+    ]
+  }
+}
