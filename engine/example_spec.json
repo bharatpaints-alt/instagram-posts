@@ -1,0 +1,52 @@
+{
+  "voice": "hm_omega:0.65,am_onyx:0.35",
+  "music_seed": 0,
+  "brand": {
+    "logo_small": "engine/assets/logo_small.png",
+    "logo_big": "engine/assets/logo_big.png",
+    "whatsapp": "93558 60009",
+    "address": "SCO 30, Bhagat Singh Market, Karnal",
+    "tagline1": "Rango ki duniya main rakhe kadam",
+    "tagline2": "Bharat Paints ke sang!",
+    "handle": "@bharatpaints_1976"
+  },
+  "scenes": [
+    {
+      "media": "posted/originals/IMG_8199.png", "crop": [1290, 2293, 0, 248], "zoom": "in",
+      "head": [["RICE MILL KA PAINT", "white"], ["BAAR-BAAR KHARAB?", "yellow"]],
+      "caption": "Rice mill ka paint baar-baar kharab? Ab nahi!",
+      "vo": [["राइस मिल का पेंट... बार-बार खराब होता है?", "hi"], ["अब नहीं!", "hi"]], "speed": 0.92, "pause": 0.45
+    },
+    {
+      "media": "posted/originals/IMG_8199.png", "crop": [1290, 2293, 0, 248], "zoom": "out", "pan": 0.2,
+      "head": [["200+ RICE MILLS", "yellow"], ["KA BHAROSA", "white"]], "sub": "GIO PAINTS",
+      "caption": "200+ rice mills ka bharosa — GIO Paints",
+      "vo": [["दो सौ से ज़्यादा राइस मिलों का भरोसा,", "hi"], ["जियो", "hi"], ["Paints!", "en"]]
+    },
+    {
+      "media": "posted/originals/IMG_8200.png", "crop": [984, 1750, 150, 480], "zoom": "in",
+      "head": [["FAST DRYING", "yellow"], ["PAINT", "white"]], "sub": "Jaldi sookhe • Mill kam ruke",
+      "caption": "GIO Fast Drying Paint se painted mills",
+      "vo": [["Fast Drying Paint.", "en"], ["जल्दी सूखे, और मिल का काम, कम से कम रुके।", "hi"]]
+    },
+    {
+      "media": "posted/originals/IMG_8201.png", "crop": [1290, 2293, 0, 248], "zoom": "in",
+      "head": [["MACHINERY", "white"], ["STRUCTURE • SILO", "yellow"]], "sub": "Chamakdar aur protected",
+      "caption": "Machinery, steel structure, silo — sab protected",
+      "vo": [["मशीनरी। स्ट्रक्चर। साइलो।", "hi"], ["सब चमकदार, सब सुरक्षित!", "hi"]]
+    },
+    {
+      "media": "posted/originals/IMG_8201.png", "crop": [1290, 2293, 0, 248], "zoom": "out", "pan": 0.8,
+      "head": [["PAINTERS BHI", "white"], ["HUM DETE HAIN", "yellow"]], "sub": "Paint se painting tak",
+      "caption": "Poori zimmedari — ek hi jagah",
+      "vo": [["और पेंटर भी, हम देंगे! पेंट से लेकर पेंटिंग तक, पूरी ज़िम्मेदारी हमारी।", "hi"]], "speed": 1.0, "pause": 0.45
+    }
+  ],
+  "cta": {
+    "title": "Rice mill painting",
+    "subtitle": "Paint + Painters + Site Visit",
+    "button": "WhatsApp karein",
+    "vo": [["अपनी मिल के लिए, आज ही", "hi"], ["WhatsApp", "en"], ["करें! नंबर स्क्रीन पर है।", "hi"],
+           ["भारत", "hi"], ["Paints.", "en"], ["रंगों की दुनिया में रखें कदम... भारत", "hi"], ["Paints", "en"], ["के संग!", "hi"]]
+  }
+}
