@@ -1,6 +1,10 @@
 {
   "voice": "hm_omega:0.65,am_onyx:0.35",
   "music_seed": 3,
+  "bpm": 112,
+  "music_volume": 0.6,
+  "sfx": true,
+  "lead": 0.1,
   "brand": {
     "logo_small": "engine/assets/logo_small.png",
     "logo_big": "engine/assets/logo_big.png",
@@ -12,54 +16,255 @@
   },
   "scenes": [
     {
-      "media": "new/IMG_2860.jpeg",
+      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
       "crop": [
-        1479,
-        2629,
-        153,
+        841,
+        1402,
+        140,
         0
       ],
-      "zoom": "in",
-      "head": [
-        [
-          "DIWALI SE PEHLE",
-          "white"
-        ],
-        [
-          "GHAR KA NAYA LOOK?",
-          "yellow"
-        ]
+      "zoom": "punch",
+      "pause": 0.1,
+      "lines": [
+        {
+          "vo": [
+            [
+              "रुको!",
+              "hi"
+            ]
+          ],
+          "speed": 1.0,
+          "pitch": 1.5,
+          "gain": 3,
+          "pause": 0.25,
+          "show": [
+            [
+              "RUKO!",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "ये दुकान...",
+              "hi"
+            ]
+          ],
+          "speed": 1.1,
+          "pause": 0.2,
+          "show": [
+            [
+              "YE DUKAAN...",
+              "white"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "पहले ऐसी नहीं थी!",
+              "hi"
+            ]
+          ],
+          "speed": 0.85,
+          "pitch": -1,
+          "gain": 2,
+          "pause": 0.1,
+          "show": [
+            [
+              "YE DUKAAN",
+              "white"
+            ],
+            [
+              "PEHLE AISI NAHI THI!",
+              "yellow"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "compare": {
+        "before": {
+          "media": "new/IMG_2860.jpeg",
+          "crop": [
+            1479,
+            2629,
+            153,
+            0
+          ],
+          "zoom": "in"
+        },
+        "after": {
+          "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+          "crop": [
+            789,
+            1402,
+            170,
+            0
+          ],
+          "zoom": "in"
+        },
+        "at_line": 1,
+        "wipe": 0.7
+      },
+      "pause": 0.15,
+      "tags": [
+        {
+          "text": "PEHLE",
+          "bg": "white",
+          "from": 0,
+          "to": "line1",
+          "y": 1180
+        },
+        {
+          "text": "BAAD (preview)",
+          "line": 1,
+          "y": 1180
+        }
       ],
-      "caption": "PEHLE: hamari dukaan, aaj",
-      "vo": [
-        [
-          "दिवाली से पहले... अपने घर का नया लुक देखना है?",
-          "hi"
-        ]
-      ],
-      "speed": 0.92,
-      "pause": 0.45
+      "lines": [
+        {
+          "vo": [
+            [
+              "पहले...",
+              "hi"
+            ]
+          ],
+          "speed": 0.75,
+          "pause": 0.55,
+          "show": [
+            [
+              "PEHLE...",
+              "white"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "और अब!",
+              "hi"
+            ]
+          ],
+          "speed": 1.1,
+          "pitch": 2,
+          "gain": 4,
+          "pause": 0.3,
+          "show": [
+            [
+              "AUR AB!",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "देखा? पेंट लगाने से पहले ही... नया लुक तैयार!",
+              "hi"
+            ]
+          ],
+          "speed": 1.05,
+          "show": [
+            [
+              "PAINT SE PEHLE HI",
+              "white"
+            ],
+            [
+              "NAYA LOOK TAIYAAR!",
+              "yellow"
+            ]
+          ],
+          "say": "Ye hai design preview"
+        }
+      ]
     },
     {
       "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
-      "zoom": "out",
-      "head": [
-        [
-          "PAINT SE PEHLE HI",
-          "white"
-        ],
-        [
-          "DEKHO NAYA LOOK!",
-          "yellow"
-        ]
+      "crop": [
+        841,
+        1402,
+        280,
+        0
       ],
-      "sub": "Sample preview",
-      "caption": "BAAD: transformation preview",
-      "vo": [
-        [
-          "ये देखिए! हमारी अपनी दुकान... पेंट से पहले ही, नया लुक तैयार!",
-          "hi"
-        ]
+      "zoom": "in",
+      "pan": 0.7,
+      "badge": "FREE • Sirf Diwali tak",
+      "pause": 0.2,
+      "lines": [
+        {
+          "vo": [
+            [
+              "और आपके घर का भी... ऐसा ही",
+              "hi"
+            ],
+            [
+              "preview",
+              "en"
+            ],
+            [
+              "बनेगा!",
+              "hi"
+            ]
+          ],
+          "speed": 1.02,
+          "pause": 0.2,
+          "show": [
+            [
+              "AAPKE GHAR KA",
+              "white"
+            ],
+            [
+              "BHI BANEGA!",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "वो भी",
+              "hi"
+            ],
+            [
+              "free!",
+              "en"
+            ]
+          ],
+          "speed": 1.0,
+          "pitch": 2,
+          "gain": 4,
+          "pause": 0.2,
+          "show": [
+            [
+              "WO BHI",
+              "white"
+            ],
+            [
+              "FREE!",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "कैसे? आख़िर तक देखिए!",
+              "hi"
+            ]
+          ],
+          "speed": 1.12,
+          "pause": 0.05,
+          "show": [
+            [
+              "KAISE?",
+              "yellow"
+            ]
+          ],
+          "say": "Aakhir tak dekhiye..."
+        }
       ]
     },
     {
@@ -72,108 +277,217 @@
       ],
       "zoom": "out",
       "pan": 0.3,
-      "head": [
-        [
-          "APNE GHAR KI",
-          "white"
-        ],
-        [
-          "PHOTO BHEJO",
-          "yellow"
-        ]
-      ],
-      "sub": "Form bharo • Photo lagao",
-      "caption": "Aapke ghar ki photo se, aapka naya look",
-      "vo": [
-        [
-          "आप भी, एक छोटा सा फ़ॉर्म भरिए, और अपने घर की फ़ोटो भेजिए।",
-          "hi"
-        ]
+      "badge": "FREE • Sirf Diwali tak",
+      "pause": 0.2,
+      "lines": [
+        {
+          "vo": [
+            [
+              "एक —",
+              "hi"
+            ],
+            [
+              "WhatsApp",
+              "en"
+            ],
+            [
+              "पर लिखिए, जियो",
+              "hi"
+            ],
+            [
+              "Paints!",
+              "en"
+            ]
+          ],
+          "speed": 1.05,
+          "pause": 0.3,
+          "show": [
+            [
+              "1. WHATSAPP KARO",
+              "white"
+            ],
+            [
+              "\"GIO PAINTS\"",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "दो — छोटा सा फ़ॉर्म भरिए, घर की फ़ोटो लगाइए!",
+              "hi"
+            ]
+          ],
+          "speed": 1.08,
+          "pause": 0.3,
+          "show": [
+            [
+              "2. FORM BHARO",
+              "white"
+            ],
+            [
+              "+ GHAR KI PHOTO",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "तीन — सिर्फ़ एक दिन में, नया लुक... आपके फ़ोन पर!",
+              "hi"
+            ]
+          ],
+          "speed": 1.0,
+          "pitch": 1,
+          "gain": 2,
+          "show": [
+            [
+              "3. SIRF 1 DIN MEIN",
+              "white"
+            ],
+            [
+              "NAYA LOOK!",
+              "yellow"
+            ]
+          ]
+        }
       ]
     },
     {
       "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
       "crop": [
-        841,
+        789,
         1402,
-        140,
+        166,
         0
       ],
-      "zoom": "in",
-      "head": [
-        [
-          "1 DIN MEIN",
-          "yellow"
-        ],
-        [
-          "TRANSFORMATION PIC",
-          "white"
-        ]
-      ],
-      "sub": "FREE • Sirf Diwali tak",
-      "caption": "Bilkul free — sirf Diwali tak!",
-      "vo": [
-        [
-          "सिर्फ़ एक दिन में, आपके घर की",
-          "hi"
-        ],
-        [
-          "transformation",
-          "en"
-        ],
-        [
-          "फ़ोटो! बिल्कुल",
-          "hi"
-        ],
-        [
-          "free!",
-          "en"
-        ],
-        [
-          "सिर्फ़ दिवाली तक!",
-          "hi"
-        ]
-      ],
-      "pause": 0.45
+      "zoom": "punch",
+      "pan": 0.5,
+      "pause": 0.3,
+      "lines": [
+        {
+          "vo": [
+            [
+              "बिल्कुल",
+              "hi"
+            ],
+            [
+              "free!",
+              "en"
+            ]
+          ],
+          "speed": 1.0,
+          "pitch": 2,
+          "gain": 4,
+          "pause": 0.3,
+          "show": [
+            [
+              "BILKUL FREE!",
+              "yellow"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "लेकिन...",
+              "hi"
+            ]
+          ],
+          "speed": 0.75,
+          "pause": 0.45,
+          "show": [
+            [
+              "LEKIN...",
+              "white"
+            ]
+          ]
+        },
+        {
+          "vo": [
+            [
+              "सिर्फ़ दिवाली तक!",
+              "hi"
+            ]
+          ],
+          "speed": 0.88,
+          "pitch": -1,
+          "gain": 3,
+          "show": [
+            [
+              "SIRF",
+              "white"
+            ],
+            [
+              "DIWALI TAK!",
+              "yellow"
+            ]
+          ]
+        }
+      ]
     }
   ],
   "cta": {
     "title": "Likhein: \"GIO PAINTS\"",
     "subtitle": "Free preview • Sirf Diwali tak",
     "button": "WhatsApp karein",
-    "vo": [
-      [
-        "अभी",
-        "hi"
-      ],
-      [
-        "WhatsApp",
-        "en"
-      ],
-      [
-        "पर लिखिए... जियो",
-        "hi"
-      ],
-      [
-        "Paints!",
-        "en"
-      ],
-      [
-        "नंबर स्क्रीन पर है।",
-        "hi"
-      ],
-      [
-        "रंगों की दुनिया में रखें कदम... भारत",
-        "hi"
-      ],
-      [
-        "Paints",
-        "en"
-      ],
-      [
-        "के संग!",
-        "hi"
-      ]
+    "bg": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+    "bg_crop": [
+      841,
+      1402,
+      140,
+      0
+    ],
+    "lines": [
+      {
+        "vo": [
+          [
+            "तो देर मत कीजिए!",
+            "hi"
+          ]
+        ],
+        "speed": 1.12,
+        "pitch": 1,
+        "gain": 3,
+        "pause": 0.15
+      },
+      {
+        "vo": [
+          [
+            "अभी",
+            "hi"
+          ],
+          [
+            "WhatsApp",
+            "en"
+          ],
+          [
+            "कीजिए!",
+            "hi"
+          ]
+        ],
+        "speed": 1.02,
+        "pause": 0.3
+      },
+      {
+        "vo": [
+          [
+            "रंगों की दुनिया में रखें कदम... भारत",
+            "hi"
+          ],
+          [
+            "Paints",
+            "en"
+          ],
+          [
+            "के संग!",
+            "hi"
+          ]
+        ],
+        "speed": 0.88
+      }
     ]
   }
 }

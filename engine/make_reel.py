@@ -76,30 +76,75 @@ def build_voice_from_files(spec, work):
 
 def build_voice(spec, work):
     if spec.get("voice_dir"):
-        return build_voice_from_files(spec, work)
+        durs = build_voice_from_files(spec, work)
+        return durs, [[] for _ in durs]
     k = load_tts()
     style = None
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
         v, w = part.split(":")
         s = k.get_voice_style(v) * float(w)
         style = s if style is None else style + s
-    segs = [(sc["vo"], sc.get("speed", 0.95), sc.get("pause", 0.4)) for sc in spec["scenes"]]
-    segs.append((spec["cta"]["vo"], spec["cta"].get("speed", 0.92), 0.6))
-    out, durs, sr = [], [], 24000
-    for chunks, speed, pause in segs:
-        a, sr = speak(k, style, chunks, speed)
-        out += [a, np.zeros(int(sr * pause), dtype=np.float32)]
-        durs.append(len(a) / sr + pause)
+    # Each scene is a list of "lines". A line has its own speed, pitch (semitones), gain and pause after it,
+    # which is what gives the voice its rise and fall (fast hook, slow dramatic pause, loud offer).
+    def lines_of(sc, dspeed, dpause):
+        if sc.get("lines"):
+            return sc["lines"], sc.get("pause", dpause)
+        return [{"vo": sc["vo"], "speed": sc.get("speed", dspeed), "pause": 0}], sc.get("pause", dpause)
+    segs = [lines_of(sc, 0.95, 0.4) for sc in spec["scenes"]] + [lines_of(spec["cta"], 0.92, 0.6)]
+    out, durs, timings, sr = [], [], [], 24000
+    for si, (lines, scene_pause) in enumerate(segs):
+        t, tim = 0.0, []
+        for li, ln in enumerate(lines):
+            a, sr = speak(k, style, ln["vo"], ln.get("speed", 0.95))
+            if ln.get("pitch") or ln.get("gain"):
+                tmp = os.path.join(work, f"ln{si}_{li}")
+                sf.write(tmp + "a.wav", a, sr)
+                r = 2 ** (ln.get("pitch", 0) / 12)
+                run(f"ffmpeg -v error -y -i {tmp}a.wav -af \"rubberband=pitch={r:.4f},volume={ln.get('gain', 0)}dB\" "
+                    f"-ar {sr} {tmp}b.wav")
+                a, _ = sf.read(tmp + "b.wav", dtype="float32")
+            pause = ln.get("pause", 0.12)
+            tim.append((t, t + len(a) / sr))
+            out += [a.astype(np.float32), np.zeros(int(sr * pause), dtype=np.float32)]
+            t += len(a) / sr + pause
+        out.append(np.zeros(int(sr * scene_pause), dtype=np.float32))
+        durs.append(t + scene_pause)
+        timings.append(tim)
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
     run(f"ffmpeg -v error -y -i {raw} -af \"{VOICE_CHAIN}\" -ar 24000 {work}/vo.wav")
-    return durs
+    return durs, timings
 
 
 # ---------- music ----------
-def build_music(dur, path, seed=0):
+def build_sfx(dur, path, whooshes, hits):
+    """Whoosh rising into each cut, and a deep hit on big moments (hook, reveal)."""
+    sr = 44100
+    out = np.zeros(int(sr * (dur + 1)))
+    rng = np.random.default_rng(7)
+    for tc in whooshes:
+        n = int(0.38 * sr)
+        i0 = int(max(0, tc - 0.33) * sr)
+        noise = rng.standard_normal(n)
+        k = np.linspace(0.02, 0.35, n)              # one-pole low-pass opening up = rising whoosh
+        y, acc = np.zeros(n), 0.0
+        for j in range(n):
+            acc += k[j] * (noise[j] - acc)
+            y[j] = acc
+        env = np.sin(np.linspace(0, np.pi, n)) ** 2
+        out[i0:i0 + n] += 0.5 * y * env
+    for th in hits:
+        n = int(0.7 * sr)
+        i0 = int(th * sr)
+        kt = np.arange(n) / sr
+        out[i0:i0 + n] += 0.9 * np.sin(2 * np.pi * np.cumsum(38 + 80 * np.exp(-kt * 18)) / sr) * np.exp(-kt * 5)
+    out = 0.7 * out / (np.max(np.abs(out)) + 1e-9)
+    sf.write(path, np.stack([out, out], 1), sr)
+
+
+def build_music(dur, path, seed=0, bpm=96):
     rng = np.random.default_rng(seed)
-    sr, bpm = 44100, 96
+    sr = 44100
     beat = 60 / bpm
     t = np.arange(int(sr * dur)) / sr
     out = np.zeros_like(t)
@@ -168,27 +213,102 @@ def prep_still(src, crop, out):
         bg.save(out)
 
 
-def text_layers(work, name, head, sub, cap):
+def pop(fs, st):
+    """Font size that springs in from 60% to 110% and settles at 100%."""
+    return (f"'{fs}*if(lt(t,{st}+0.16),0.6+0.5*(t-{st})/0.16,if(lt(t,{st}+0.26),1.1-0.1*(t-{st}-0.16)/0.1,1))'")
+
+
+def big_lines(work, name, lines, st, en, instant=False):
     f, y = [], 300
-    for i, (line, col) in enumerate(head or []):
-        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, f'{name}h{i}', line)}:fontcolor={COLORS.get(col, col)}:"
-                 f"fontsize=84:borderw=7:bordercolor=black:x=(w-tw)/2:y={y}:alpha='min(1,(t-{0.15 + i * 0.2})/0.25)'")
-        y += 104
-    if sub:
-        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, name + 's', sub)}:fontcolor=white:fontsize=54:borderw=5:"
-                 f"bordercolor=black:x=(w-tw)/2:y={y + 20}:alpha='min(1,(t-0.6)/0.3)'")
-    if cap:
-        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, name + 'c', cap)}:fontcolor=white:fontsize=46:box=1:"
-                 f"boxcolor=black@0.65:boxborderw=22:x=(w-tw)/2:y=1380")
+    for i, (line, col) in enumerate(lines):
+        s0 = st + (0 if instant else 0.05) + i * 0.12
+        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, f'{name}_{i}', line)}:fontcolor={COLORS.get(col, col)}:"
+                 f"fontsize={pop(88, s0)}:borderw=8:bordercolor=black:x=(w-tw)/2:y={y}:"
+                 f"enable='between(t,{s0:.3f},{en:.3f})'")
+        y += 110
+    return f, y
+
+
+def text_layers(work, name, sc, dur, tim):
+    f, y = [], 300
+    lines = sc.get("lines") or []
+    shows = [(tim[j][0], ln["show"]) for j, ln in enumerate(lines) if ln.get("show") and j < len(tim)]
+    if shows:
+        for k, (st, show) in enumerate(shows):
+            en = shows[k + 1][0] - 0.02 if k + 1 < len(shows) else dur
+            ff, _ = big_lines(work, f"{name}x{k}", show, max(0, st - 0.08), en, instant=(st < 0.2))
+            f += ff
+    elif sc.get("head"):
+        ff, y = big_lines(work, name + "h", sc["head"], 0, dur, instant=sc.get("instant", False))
+        f += ff
+    if sc.get("sub"):
+        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, name + 's', sc['sub'])}:fontcolor=white:fontsize=56:"
+                 f"borderw=5:bordercolor=black:x=(w-tw)/2:y={(y if not shows else 300 + 220) + 20}:"
+                 f"alpha='min(1,(t-0.5)/0.3)'")
+    says = [(tim[j][0], ln["say"]) for j, ln in enumerate(lines) if ln.get("say") and j < len(tim)]
+    if says:
+        for k, (st, say) in enumerate(says):
+            en = says[k + 1][0] if k + 1 < len(says) else dur
+            f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, f'{name}y{k}', say)}:fontcolor=white:fontsize=50:"
+                     f"box=1:boxcolor=black@0.7:boxborderw=22:x=(w-tw)/2:y=1360:enable='between(t,{st:.3f},{en:.3f})'")
+    elif sc.get("caption"):
+        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, name + 'c', sc['caption'])}:fontcolor=white:fontsize=46:"
+                 f"box=1:boxcolor=black@0.65:boxborderw=22:x=(w-tw)/2:y=1380")
+    for k, tag in enumerate(sc.get("tags", [])):
+        st = tim[tag["line"]][0] if "line" in tag and tag["line"] < len(tim) else tag.get("from", 0)
+        en = tag.get("to", dur)
+        if isinstance(en, str) and en.startswith("line"):
+            en = tim[int(en[4:])][0]
+        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, f'{name}g{k}', tag['text'])}:"
+                 f"fontcolor={tag.get('color', 'black')}:fontsize={pop(64, st)}:box=1:"
+                 f"boxcolor={COLORS.get(tag.get('bg', 'yellow'), tag.get('bg', 'yellow'))}:boxborderw=18:"
+                 f"x={tag.get('x', '60')}:y={tag.get('y', 1180)}:enable='between(t,{st:.3f},{en:.3f})'")
+    if sc.get("badge"):
+        f.append(f"drawtext=fontfile={FONT}:textfile={tf(work, name + 'b', sc['badge'])}:fontcolor=black:fontsize=40:"
+                 f"box=1:boxcolor=0xFFD23F:boxborderw=14:x=w-tw-50:y=150")
     return ",".join(f) if f else "null"
 
 
-def render_scene(work, i, sc, dur, logo):
+LOOK = "eq=contrast=1.08:saturation=1.15"
+
+
+def still_clip(work, name, src, crop, zoom, pan, dur, out):
+    still = os.path.join(work, name + ".png")
+    prep_still(src, crop, still)
+    frames = max(1, int(dur * FPS))
+    if zoom == "punch":       # fast punch-in, then a slow creep
+        z = f"max(1.0+0.05*on/{frames},1.35-0.30*on/9)"
+    elif zoom == "out":
+        z = f"1.15-0.15*on/{frames}"
+    else:
+        z = f"1+0.15*on/{frames}"
+    zp = f"zoompan=z='{z}':x='(iw-iw/zoom)*{pan}':y='(ih-ih/zoom)/2':d=1:s=1080x1920:fps={FPS}"
+    run(f"ffmpeg -v error -y -loop 1 -framerate {FPS} -t {dur:.3f} -i {still} -vf \"{zp},{LOOK}\" "
+        f"-c:v libx264 -preset veryfast -crf 17 -pix_fmt yuv420p -r {FPS} -t {dur:.3f} {out}")
+    return out
+
+
+def render_scene(work, i, sc, dur, logo, tim):
     name = f"s{i}"
-    layers = text_layers(work, name, sc.get("head"), sc.get("sub"), sc.get("caption"))
+    layers = text_layers(work, name, sc, dur, tim)
+    flash = "" if i == 0 or sc.get("flash") is False else ",fade=in:st=0:d=0.18:color=white"
     out = os.path.join(work, name + ".mp4")
+    if sc.get("compare"):
+        c = sc["compare"]
+        at = c.get("at_line", 1)
+        T = max(0.5, (tim[at][0] if at < len(tim) else dur / 2) - 0.1)
+        W_ = c.get("wipe", 0.6)
+        b = still_clip(work, name + "b", p(c["before"]["media"]), c["before"].get("crop"), c["before"].get("zoom", "in"),
+                       c["before"].get("pan", 0.5), T + W_, os.path.join(work, name + "b.mp4"))
+        a = still_clip(work, name + "a", p(c["after"]["media"]), c["after"].get("crop"), c["after"].get("zoom", "in"),
+                       c["after"].get("pan", 0.5), dur - T, os.path.join(work, name + "a.mp4"))
+        run(f"ffmpeg -v error -y -i {b} -i {a} -i {logo} -f lavfi -i color=white:s=14x1920:r={FPS} -filter_complex "
+            f"\"[0:v][1:v]xfade=transition=wiperight:duration={W_}:offset={T:.3f}[x];"
+            f"[x][3:v]overlay=x='W*(t-{T:.3f})/{W_}-7':y=0:enable='between(t,{T:.3f},{T + W_:.3f})':shortest=1[y];"
+            f"[y]{layers}{flash}[v];[v][2:v]overlay=40:130\" -c:v libx264 -preset veryfast -crf 19 "
+            f"-pix_fmt yuv420p -r {FPS} -t {dur:.3f} {out}")
+        return out
     src = p(sc["media"])
-    look = "eq=contrast=1.08:saturation=1.15"
     if is_video(src):
         ss = sc.get("start", 0)
         base = ("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920"
@@ -196,29 +316,26 @@ def render_scene(work, i, sc, dur, logo):
                 "split[a][b];[a]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=30:2,"
                 "eq=brightness=-0.25[bg];[b]scale=1080:-2[fg];[bg][fg]overlay=0:(H-h)/2")
         run(f"ffmpeg -v error -y -ss {ss} -t {dur} -i \"{src}\" -i {logo} -filter_complex "
-            f"\"[0:v]{base},fps={FPS},{look},{layers}[v];[v][1:v]overlay=40:130\" -an -c:v libx264 -preset veryfast "
+            f"\"[0:v]{base},fps={FPS},{LOOK},{layers}{flash}[v];[v][1:v]overlay=40:130\" -an -c:v libx264 -preset veryfast "
             f"-crf 19 -pix_fmt yuv420p -r {FPS} -t {dur} {out}")
     else:
-        still = os.path.join(work, name + ".png")
-        prep_still(src, sc.get("crop"), still)
-        frames = int(dur * FPS)
-        z = f"1+0.15*on/{frames}" if sc.get("zoom", "in") == "in" else f"1.15-0.15*on/{frames}"
-        xb = sc.get("pan", 0.5)
-        zp = f"zoompan=z='{z}':x='(iw-iw/zoom)*{xb}':y='(ih-ih/zoom)/2':d=1:s=1080x1920:fps={FPS}"
-        run(f"ffmpeg -v error -y -loop 1 -framerate {FPS} -t {dur} -i {still} -i {logo} -filter_complex "
-            f"\"[0:v]{zp},{look},{layers}[v];[v][1:v]overlay=40:130\" -c:v libx264 -preset veryfast -crf 19 "
-            f"-pix_fmt yuv420p -r {FPS} {out}")
+        base = still_clip(work, name + "z", src, sc.get("crop"), sc.get("zoom", "in"), sc.get("pan", 0.5), dur,
+                          os.path.join(work, name + "z.mp4"))
+        run(f"ffmpeg -v error -y -i {base} -i {logo} -filter_complex "
+            f"\"[0:v]{layers}{flash}[v];[v][1:v]overlay=40:130\" -c:v libx264 -preset veryfast -crf 19 "
+            f"-pix_fmt yuv420p -r {FPS} -t {dur:.3f} {out}")
     return out
 
 
 def render_cta(work, spec, dur, bg_media):
     b, c = spec["brand"], spec["cta"]
+    bg_media = c.get("bg", bg_media)
     still = os.path.join(work, "cta.png")
     if is_video(p(bg_media)):
         run(f"ffmpeg -v error -y -ss 1 -i \"{p(bg_media)}\" -frames:v 1 {work}/cta_src.png")
         prep_still(f"{work}/cta_src.png", None, still)
     else:
-        prep_still(p(bg_media), spec["scenes"][0].get("crop"), still)
+        prep_still(p(bg_media), c.get("bg_crop", spec["scenes"][0].get("crop")), still)
     T = lambda n, s: tf(work, n, s)
     Y = COLORS["yellow"]
     layers = [
@@ -227,7 +344,7 @@ def render_cta(work, spec, dur, bg_media):
         f"drawtext=fontfile={FONT}:textfile={T('e4', c['subtitle'])}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=730:alpha='min(1,(t-0.9)/0.4)'",
         "drawbox=x=90:y=880:w=900:h=250:color=0x25D366@0.95:t=fill:enable='gte(t,1.2)'",
         f"drawtext=fontfile={FONT}:textfile={T('e5', c.get('button', 'WhatsApp karein'))}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=910:enable='gte(t,1.2)'",
-        f"drawtext=fontfile={FONT}:textfile={T('e6', b['whatsapp'])}:fontcolor=white:fontsize=110:x=(w-tw)/2:y=985:enable='gte(t,1.2)'",
+        f"drawtext=fontfile={FONT}:textfile={T('e6', b['whatsapp'])}:fontcolor=white:fontsize='110*(1+0.045*sin(2*PI*1.6*t))':x=(w-tw)/2:y=1050-th/2:enable='gte(t,1.2)'",
         f"drawtext=fontfile={FONT}:textfile={T('e7', b['address'])}:fontcolor=0xDDDDDD:fontsize=42:x=(w-tw)/2:y=1190:alpha='min(1,(t-1.6)/0.4)'",
         f"drawtext=fontfile={FONT}:textfile={T('e8', b['tagline1'])}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=1360:alpha='min(1,(t-3.5)/0.5)'",
         f"drawtext=fontfile={FONT}:textfile={T('e9', b['tagline2'])}:fontcolor={Y}:fontsize=58:x=(w-tw)/2:y=1430:alpha='min(1,(t-3.7)/0.5)'",
@@ -236,7 +353,7 @@ def render_cta(work, spec, dur, bg_media):
     zp = f"zoompan=z='1.1':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1080x1920:fps={FPS}"
     out = os.path.join(work, "cta.mp4")
     run(f"ffmpeg -v error -y -loop 1 -framerate {FPS} -t {dur} -i {still} -i {p(b['logo_big'])} -filter_complex "
-        f"\"[0:v]{zp},{','.join(layers)}[bg];[bg][1:v]overlay=(W-w)/2:250\" -c:v libx264 -preset veryfast -crf 19 "
+        f"\"[0:v]{zp},{','.join(layers)}[bg];[bg][1:v]overlay=(W-w)/2:250,fade=in:st=0:d=0.18:color=white\" -c:v libx264 -preset veryfast -crf 19 "
         f"-pix_fmt yuv420p -r {FPS} {out}")
     return out
 
@@ -245,21 +362,34 @@ def main(spec_path, out_path):
     spec = json.load(open(spec_path))
     work = os.path.join(CACHE, "work")
     os.makedirs(work, exist_ok=True)
-    durs = build_voice(spec, work)
+    lead = spec.get("lead", 0.4)         # silence before the first word
+    durs, timings = build_voice(spec, work)
     durs[-1] += 1.6                      # hold the end card after the last word
-    durs[0] += 0.4                       # voice starts 0.4 s in
+    durs[0] += lead
+    timings[0] = [(a + lead, b + lead) for a, b in timings[0]]
     total = sum(durs)
     logo = p(spec["brand"]["logo_small"])
-    clips = [render_scene(work, i, sc, durs[i], logo) for i, sc in enumerate(spec["scenes"])]
-    clips.append(render_cta(work, spec, durs[-1], spec["scenes"][0]["media"]))
+    clips = [render_scene(work, i, sc, durs[i], logo, timings[i]) for i, sc in enumerate(spec["scenes"])]
+    first_media = next(sc["media"] for sc in spec["scenes"] if sc.get("media"))
+    clips.append(render_cta(work, spec, durs[-1], first_media))
     open(f"{work}/list.txt", "w").write("".join(f"file '{c}'\n" for c in clips))
     run(f"ffmpeg -v error -y -f concat -safe 0 -i {work}/list.txt -c copy {work}/video.mp4")
-    build_music(total + 0.5, f"{work}/music.wav", seed=spec.get("music_seed", 0))
-    run(f"ffmpeg -v error -y -i {work}/vo.wav -af adelay=400:all=1,apad=whole_dur={total},loudnorm=I=-15:TP=-1.2 "
-        f"-ar 44100 -ac 2 {work}/vo44.wav")
-    run(f"ffmpeg -v error -y -i {work}/music.wav -i {work}/vo44.wav -filter_complex "
-        f"\"[0:a]volume=0.55[m];[1:a]asplit[v1][v2];[m][v1]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[md];"
-        f"[md][v2]amix=inputs=2:duration=longest:normalize=0,atrim=0:{total},alimiter=limit=0.95\" -ar 44100 {work}/mix.wav")
+    build_music(total + 0.5, f"{work}/music.wav", seed=spec.get("music_seed", 0), bpm=spec.get("bpm", 96))
+    starts = np.cumsum([0] + durs[:-1])
+    hits = [0.0] if spec.get("sfx") else []
+    for i, sc in enumerate(spec["scenes"]):
+        if sc.get("compare"):
+            at = sc["compare"].get("at_line", 1)
+            hits.append(starts[i] + max(0.5, timings[i][at][0] - 0.1) + 0.25)
+    whooshes = list(starts[1:]) if spec.get("sfx") else []
+    build_sfx(total + 0.5, f"{work}/sfx.wav", whooshes, hits if spec.get("sfx") else [])
+    mv = spec.get("music_volume", 0.55)
+    run(f"ffmpeg -v error -y -i {work}/vo.wav -af adelay={int(lead * 1000)}:all=1,apad=whole_dur={total},"
+        f"loudnorm=I=-15:TP=-1.2 -ar 44100 -ac 2 {work}/vo44.wav")
+    run(f"ffmpeg -v error -y -i {work}/music.wav -i {work}/vo44.wav -i {work}/sfx.wav -filter_complex "
+        f"\"[0:a]volume={mv}[m];[1:a]asplit[v1][v2];[m][v1]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[md];"
+        f"[2:a]volume=0.5[fx];[md][v2][fx]amix=inputs=3:duration=first:normalize=0,atrim=0:{total},alimiter=limit=0.95\" "
+        f"-ar 44100 {work}/mix.wav")
     run(f"ffmpeg -v error -y -i {work}/video.mp4 -i {work}/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 160k "
         f"-shortest -movflags +faststart {out_path}")
     print(f"done {total:.1f}s -> {out_path}")

@@ -30,3 +30,15 @@ Rules that make it sound right:
 `build_voice()` in `make_reel.py` is the only place that makes audio. To move to another open-source TTS
 (Chatterbox, Indic Parler-TTS, IndicF5), replace that function so it writes `vo.wav` and returns the
 per-scene durations. Nothing else changes.
+
+## v2 options (retention + voice modulation)
+
+| Field | What it is |
+|---|---|
+| `lines` (scene or `cta`) | Instead of `vo`: a list of lines, each `{vo, speed, pitch (semitones), gain (dB), pause, show, say}`. Speed/pitch/gain per line give the voice its rise and fall. `show` = big text that pops in when that line is spoken; `say` = subtitle box synced to that line |
+| `compare` | Before → after wipe reveal: `{before:{media,crop,zoom}, after:{...}, at_line, wipe}`. The wipe starts on line `at_line` |
+| `tags` | Small label boxes, e.g. `PEHLE` / `BAAD`: `{text, bg, from/line, to ("lineN" or seconds), y}` |
+| `badge` | Small yellow sticker top-right (e.g. offer) |
+| `zoom: "punch"` | Fast punch-in for hook / big moments |
+| top level `sfx`, `bpm`, `music_volume`, `lead` | Whoosh on every cut + hit on hook/reveal; music tempo; music level; silence before first word |
+Scenes after the first open with a short white flash. The WhatsApp number on the end card pulses.
