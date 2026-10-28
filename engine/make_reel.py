@@ -54,7 +54,29 @@ def speak(k, style, chunks, speed):
     return a, sr
 
 
+def build_voice_from_files(spec, work):
+    """Use ready-made segment WAVs (e.g. Gaurav's cloned voice from the private voice repo)."""
+    folder = p(spec["voice_dir"])
+    n = len(spec["scenes"]) + 1
+    pauses = [sc.get("pause", 0.4) for sc in spec["scenes"]] + [0.6]
+    out, durs, sr = [], [], 24000
+    for i in range(n):
+        tmp = os.path.join(work, f"seg{i}.wav")
+        run(f"ffmpeg -v error -y -i {folder}/seg_{i:02d}.wav -af silenceremove=start_periods=1:start_threshold=-45dB,"
+            f"areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse -ar {sr} -ac 1 {tmp}")
+        a, _ = sf.read(tmp, dtype="float32")
+        out += [a, np.zeros(int(sr * pauses[i]), dtype=np.float32)]
+        durs.append(len(a) / sr + pauses[i])
+    raw = os.path.join(work, "vo_raw.wav")
+    sf.write(raw, np.concatenate(out), sr)
+    run(f"ffmpeg -v error -y -i {raw} -af \"highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,"
+        f"acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2\" -ar 24000 {work}/vo.wav")
+    return durs
+
+
 def build_voice(spec, work):
+    if spec.get("voice_dir"):
+        return build_voice_from_files(spec, work)
     k = load_tts()
     style = None
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
