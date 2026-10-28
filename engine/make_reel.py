@@ -88,6 +88,33 @@ class Piper:
         return a.squeeze().astype(np.float32), self.sr
 
 
+class SarvamClone:
+    """Cloned voice on Sarvam AI (POST /voices/clone with a saved voice_id). The API key is read from the
+    SARVAM_API_KEY env var or ~/.sarvam_key, never from the repo."""
+
+    def __init__(self, voice_id, work):
+        key = os.environ.get("SARVAM_API_KEY") or open(os.path.expanduser("~/.sarvam_key")).read().strip()
+        self.voice_id, self.work, self.n = voice_id, work, 0
+        self.keyfile = os.path.join(work, "sarvam_hdr")
+        with open(self.keyfile, "w") as f:
+            f.write(f"api-subscription-key: {key}\n")
+        os.chmod(self.keyfile, 0o600)
+
+    def create(self, chunks, speed):
+        import base64
+        text = " ".join(t for t, _ in chunks)
+        self.n += 1
+        tfile = os.path.join(self.work, f"sv{self.n}.txt")
+        open(tfile, "w").write(text)
+        out = run(f"curl -sS --fail-with-body https://api.sarvam.ai/voices/clone -H @{self.keyfile} "
+                  f"-F voice_id={self.voice_id} -F 'text=<{tfile}' -F language_code=hi-IN -F pace={speed:.2f}")
+        d = json.loads(out)
+        wav = os.path.join(self.work, f"sv{self.n}.wav")
+        open(wav, "wb").write(base64.b64decode(d.get("audio_b64") or d["audio"]))
+        a, sr = sf.read(wav, dtype="float32")
+        return (a if a.ndim == 1 else a.mean(1)), sr
+
+
 def build_voice_from_files(spec, work):
     """Use ready-made segment WAVs (e.g. Gaurav's cloned voice from the private voice repo)."""
     folder = p(spec["voice_dir"])
@@ -115,6 +142,8 @@ def build_voice(spec, work):
     k = load_tts()
     style = None
     piper = Piper(spec["piper"], k) if spec.get("piper") else None
+    if spec.get("sarvam_voice"):
+        piper = SarvamClone(spec["sarvam_voice"], work)
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
         v, w = part.split(":")
         s = k.get_voice_style(v) * float(w)
@@ -134,6 +163,8 @@ def build_voice(spec, work):
         t, tim = 0.0, []
         for li, ln in enumerate(lines):
             a, sr = speak(k, style, ln["vo"], ln.get("speed", 0.95))
+            if spec.get("sarvam_voice"):
+                ln = {**ln, "pitch": 0}
             if ln.get("pitch") or ln.get("gain"):
                 tmp = os.path.join(work, f"ln{si}_{li}")
                 sf.write(tmp + "a.wav", a, sr)
@@ -150,7 +181,9 @@ def build_voice(spec, work):
         timings.append(tim)
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
-    run(f"ffmpeg -v error -y -i {raw} -af \"{VOICE_CHAIN}\" -ar 24000 {work}/vo.wav")
+    chain = ("highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2"
+             if spec.get("sarvam_voice") else VOICE_CHAIN)
+    run(f"ffmpeg -v error -y -i {raw} -af \"{chain}\" -ar 24000 {work}/vo.wav")
     return durs, timings
 
 

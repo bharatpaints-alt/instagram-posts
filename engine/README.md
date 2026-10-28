@@ -48,3 +48,8 @@ Add `"piper": "hi_IN-rohan-medium"` to the spec. It uses the Piper Hindi male vo
 IndicTTS "Hindi Mono Male" recordings (ONNX, downloaded from the sherpa-onnx GitHub release on first run;
 the IITM license allows commercial use). Write every word in Devanagari with "hi" (e.g. वॉट्सऐप, पेंट्स, फ़्री).
 Do NOT use hi_IN-pratham / hi_IN-priyamvada: their data is CC BY-NC-SA (non-commercial).
+
+## Gaurav's own cloned voice (best)
+Add `"sarvam_voice": "svc-38314a5f-36dc-4276-98da-94973af10cec"` (Gaurav, hi-IN) to the spec. It calls Sarvam AI
+`POST /voices/clone` with that saved voice. Line `speed` becomes Sarvam `pace`; `pitch` is ignored (real voice).
+The API key comes from the `SARVAM_API_KEY` env var or `~/.sarvam_key` — never commit it.
