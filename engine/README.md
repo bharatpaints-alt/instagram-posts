@@ -42,3 +42,9 @@ per-scene durations. Nothing else changes.
 | `zoom: "punch"` | Fast punch-in for hook / big moments |
 | top level `sfx`, `bpm`, `music_volume`, `lead` | Whoosh on every cut + hit on hook/reveal; music tempo; music level; silence before first word |
 Scenes after the first open with a short white flash. The WhatsApp number on the end card pulses.
+
+## Native Hindi voice (recommended)
+Add `"piper": "hi_IN-rohan-medium"` to the spec. It uses the Piper Hindi male voice trained on IIT Madras
+IndicTTS "Hindi Mono Male" recordings (ONNX, downloaded from the sherpa-onnx GitHub release on first run;
+the IITM license allows commercial use). Write every word in Devanagari with "hi" (e.g. वॉट्सऐप, पेंट्स, फ़्री).
+Do NOT use hi_IN-pratham / hi_IN-priyamvada: their data is CC BY-NC-SA (non-commercial).

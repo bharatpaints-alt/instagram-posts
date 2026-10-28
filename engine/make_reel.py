@@ -54,6 +54,40 @@ def speak(k, style, chunks, speed):
     return a, sr
 
 
+PIPER_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/"
+
+
+class Piper:
+    """Native Hindi voice (Piper VITS, ONNX). Default 'hi_IN-rohan-medium': male, trained on the IIT Madras
+    IndicTTS 'Hindi Mono Male' recordings (license allows commercial use). Phonemes come from the same
+    espeak-ng frontend Kokoro uses, so no extra install beyond onnxruntime."""
+
+    def __init__(self, name, kokoro):
+        import onnxruntime as ort
+        folder = os.path.join(CACHE, "piper", f"vits-piper-{name}")
+        if not os.path.exists(folder):
+            os.makedirs(os.path.dirname(folder), exist_ok=True)
+            print("downloading", name)
+            run(f"curl -sSL {PIPER_URL}vits-piper-{name}.tar.bz2 | tar xj -C {os.path.dirname(folder)}")
+        cfg = json.load(open(os.path.join(folder, f"{name}.onnx.json")))
+        self.map, self.sr, self.k = cfg["phoneme_id_map"], cfg["audio"]["sample_rate"], kokoro
+        self.sess = ort.InferenceSession(os.path.join(folder, f"{name}.onnx"))
+
+    def create(self, chunks, speed):
+        lang = {"hi": "hi", "en": "en-us"}
+        ph = " ".join(self.k.tokenizer.phonemize(t, lang[l]) for t, l in chunks)
+        m = self.map
+        ids = m["^"] + m["_"]
+        for c in ph:
+            if c in m:
+                ids += m[c] + m["_"]
+        ids += m["$"]
+        x = np.array([ids], dtype=np.int64)
+        a = self.sess.run(None, {"input": x, "input_lengths": np.array([x.shape[1]], dtype=np.int64),
+                                 "scales": np.array([0.667, 1.0 / speed, 0.8], dtype=np.float32)})[0]
+        return a.squeeze().astype(np.float32), self.sr
+
+
 def build_voice_from_files(spec, work):
     """Use ready-made segment WAVs (e.g. Gaurav's cloned voice from the private voice repo)."""
     folder = p(spec["voice_dir"])
@@ -80,10 +114,14 @@ def build_voice(spec, work):
         return durs, [[] for _ in durs]
     k = load_tts()
     style = None
+    piper = Piper(spec["piper"], k) if spec.get("piper") else None
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
         v, w = part.split(":")
         s = k.get_voice_style(v) * float(w)
         style = s if style is None else style + s
+
+    def speak(k_, style_, chunks, speed):
+        return piper.create(chunks, speed) if piper else globals()["speak"](k_, style_, chunks, speed)
     # Each scene is a list of "lines". A line has its own speed, pitch (semitones), gain and pause after it,
     # which is what gives the voice its rise and fall (fast hook, slow dramatic pause, loud offer).
     def lines_of(sc, dspeed, dpause):
