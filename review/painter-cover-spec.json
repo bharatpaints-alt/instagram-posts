@@ -1,9 +1,9 @@
 {
- "piper": "hi_IN-rohan-medium",
- "voice": "hm_omega:0.5,hm_psi:0.5",
+ "voice_dir": "review/voice/painter-cover",
+ "voice_note": "Gaurav's own recording (gaurav-original.m4a), cut per line",
  "music_seed": 5,
  "bpm": 112,
- "music_volume": 0.55,
+ "music_volume": 0.5,
  "sfx": true,
  "lead": 0.1,
  "brand": {
@@ -17,37 +17,20 @@
  },
  "scenes": [
   {
-   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "media": "new/painting-in-progress.mp4",
    "start": 11.5,
    "pause": 0.1,
    "lines": [
     {
-     "vo": [
-      [
-       "रुको!",
-       "hi"
-      ]
-     ],
-     "speed": 1.0,
-     "pause": 0.25,
      "show": [
       [
        "RUKO!",
        "yellow"
       ]
      ],
-     "pitch": 1.5,
-     "gain": 3
+     "pause": 0.3
     },
     {
-     "vo": [
-      [
-       "पेंटर बुलाने से पहले... ये देखिए!",
-       "hi"
-      ]
-     ],
-     "speed": 1.08,
-     "pause": 0.1,
      "show": [
       [
        "PAINTER SE PEHLE",
@@ -57,40 +40,26 @@
        "YE DEKHIYE!",
        "yellow"
       ]
-     ]
+     ],
+     "pause": 0.05
     }
    ]
   },
   {
-   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "media": "new/painting-in-progress.mp4",
    "start": 0.0,
-   "pause": 0.15,
+   "pause": 0.1,
    "lines": [
     {
-     "vo": [
-      [
-       "सबको एक ही डर होता है...",
-       "hi"
-      ]
-     ],
-     "speed": 1.0,
-     "pause": 0.2,
      "show": [
       [
        "SABKO EK HI DARR...",
        "white"
       ]
-     ]
+     ],
+     "pause": 0.15
     },
     {
-     "vo": [
-      [
-       "दरवाज़ों पे छींटे! सामान पे दाग!",
-       "hi"
-      ]
-     ],
-     "speed": 1.05,
-     "pause": 0.1,
      "show": [
       [
        "CHHEENTE?",
@@ -101,15 +70,14 @@
        "yellow"
       ]
      ],
-     "pitch": 1,
-     "gain": 2
+     "pause": 0.05
     }
    ]
   },
   {
-   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
-   "start": 3.8,
-   "pause": 0.15,
+   "media": "new/painting-in-progress.mp4",
+   "start": 3.6,
+   "pause": 0.1,
    "tags": [
     {
      "text": "PLASTIC COVER",
@@ -119,30 +87,15 @@
    ],
    "lines": [
     {
-     "vo": [
-      [
-       "पर यहाँ देखिए...",
-       "hi"
-      ]
-     ],
-     "speed": 0.9,
-     "pause": 0.3,
      "show": [
       [
        "PAR YAHAN...",
        "white"
       ]
-     ]
+     ],
+     "pause": 0.15
     },
     {
-     "vo": [
-      [
-       "हर दरवाज़ा, हर चौखट... पहले प्लास्टिक से पैक!",
-       "hi"
-      ]
-     ],
-     "speed": 1.05,
-     "pause": 0.1,
      "show": [
       [
        "HAR DARWAZA",
@@ -157,41 +110,25 @@
        "yellow"
       ]
      ],
-     "pitch": 1,
-     "gain": 2
+     "pause": 0.05
     }
    ]
   },
   {
-   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
-   "start": 8.0,
-   "pause": 0.15,
+   "media": "new/painting-in-progress.mp4",
+   "start": 8.6,
+   "pause": 0.1,
    "lines": [
     {
-     "vo": [
-      [
-       "फिर छत से काम शुरू।",
-       "hi"
-      ]
-     ],
-     "speed": 1.0,
-     "pause": 0.25,
      "show": [
       [
        "PHIR CHHAT SE SHURU",
        "white"
       ]
-     ]
+     ],
+     "pause": 0.2
     },
     {
-     "vo": [
-      [
-       "आराम से... ध्यान से।",
-       "hi"
-      ]
-     ],
-     "speed": 0.88,
-     "pause": 0.1,
      "show": [
       [
        "AARAAM SE,",
@@ -201,73 +138,83 @@
        "DHYAAN SE.",
        "yellow"
       ]
-     ]
+     ],
+     "pause": 0.05
     }
    ]
   },
   {
-   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
-   "start": 9.6,
-   "pause": 0.2,
+   "compare": {
+    "before": {
+     "media": "review/frames/painter-before.jpg",
+     "zoom": "in"
+    },
+    "after": {
+     "media": "review/frames/final-room.jpg",
+     "zoom": "in"
+    },
+    "at_line": 1,
+    "wipe": 0.6
+   },
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "PEHLE",
+     "bg": "white",
+     "from": 0,
+     "to": "line1",
+     "y": 1180
+    },
+    {
+     "text": "BAAD",
+     "line": 1,
+     "y": 1180
+    }
+   ],
    "lines": [
     {
-     "vo": [
-      [
-       "आपको मिलेगा नया रंग...",
-       "hi"
-      ]
-     ],
-     "speed": 1.0,
-     "pause": 0.15,
      "show": [
       [
-       "AAPKO MILEGA",
+       "KAAM KE BAAD...",
        "white"
-      ],
+      ]
+     ],
+     "pause": 0.15
+    },
+    {
+     "show": [
       [
        "NAYA RANG",
        "yellow"
       ]
-     ]
+     ],
+     "pause": 0.2
     },
     {
-     "vo": [
-      [
-       "और दरवाज़े सेफ़!",
-       "hi"
-      ]
-     ],
-     "speed": 1.0,
-     "pause": 0.25,
      "show": [
       [
-       "AUR DARWAZE SAFE!",
+       "NAYA RANG",
        "yellow"
-      ]
-     ],
-     "pitch": 2,
-     "gain": 3
-    },
-    {
-     "vo": [
-      [
-       "दिवाली से पहले पेंटिंग करवानी है?",
-       "hi"
-      ]
-     ],
-     "speed": 1.05,
-     "pause": 0.05,
-     "show": [
-      [
-       "DIWALI SE PEHLE",
-       "white"
       ],
       [
-       "PAINTING?",
-       "yellow"
+       "NAYA GHAR!",
+       "white"
       ]
-     ]
+     ],
+     "pause": 0.1
     }
+   ]
+  },
+  {
+   "media": "new/final-work.mp4",
+   "start": 8.2,
+   "silence": 2.4,
+   "pause": 0.0,
+   "head": [
+    [
+     "NAYA GHAR!",
+     "yellow"
+    ]
    ]
   }
  ],
@@ -275,40 +222,8 @@
   "title": "Likhein: \"PAINTER\"",
   "subtitle": "Painter + paint, sab ek jagah",
   "button": "WhatsApp karein",
-  "bg": "review/frames/painter-cover-cta.jpg",
-  "lines": [
-   {
-    "vo": [
-     [
-      "अभी वॉट्सऐप पे लिखिए... पेंटर!",
-      "hi"
-     ]
-    ],
-    "speed": 1.0,
-    "pause": 0.25,
-    "pitch": 1,
-    "gain": 3
-   },
-   {
-    "vo": [
-     [
-      "भारत पेंट्स, करनाल।",
-      "hi"
-     ]
-    ],
-    "speed": 0.95,
-    "pause": 0.25
-   },
-   {
-    "vo": [
-     [
-      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
-      "hi"
-     ]
-    ],
-    "speed": 0.88,
-    "pause": 0
-   }
-  ]
+  "bg": "review/frames/final-design.jpg",
+  "silence": 4.5,
+  "pause": 0.0
  }
 }

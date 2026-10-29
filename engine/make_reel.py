@@ -7,6 +7,7 @@ The Kokoro voice model (open source, GitHub releases) downloads itself on first 
 
 Spec format: see engine/README.md and engine/example_spec.json.
 """
+import glob
 import json, os, subprocess, sys, urllib.request
 
 import numpy as np
@@ -116,29 +117,45 @@ class SarvamClone:
 
 
 def build_voice_from_files(spec, work):
-    """Use ready-made segment WAVs (e.g. Gaurav's cloned voice from the private voice repo)."""
+    """Use ready-made WAVs (Gaurav's cloned voice, or his own recording).
+    Per scene i (CTA = last): either seg_XX.wav (one file), or seg_XX_YY.wav (one file per line, so pop-text
+    syncs to each line; the line's "pause" follows it), or no file + "silence": seconds (music only)."""
     folder = p(spec["voice_dir"])
-    n = len(spec["scenes"]) + 1
-    pauses = [sc.get("pause", 0.4) for sc in spec["scenes"]] + [0.6]
-    out, durs, sr = [], [], 24000
-    for i in range(n):
-        tmp = os.path.join(work, f"seg{i}.wav")
-        run(f"ffmpeg -v error -y -i {folder}/seg_{i:02d}.wav -af silenceremove=start_periods=1:start_threshold=-45dB,"
-            f"areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse -ar {sr} -ac 1 {tmp}")
-        a, _ = sf.read(tmp, dtype="float32")
-        out += [a, np.zeros(int(sr * pauses[i]), dtype=np.float32)]
-        durs.append(len(a) / sr + pauses[i])
+    parts = spec["scenes"] + [spec["cta"]]
+    sr = 24000
+    out, durs, timings = [], [], []
+    for i, sc in enumerate(parts):
+        lines = sc.get("lines") or [{}]
+        files = sorted(glob.glob(f"{folder}/seg_{i:02d}_*.wav"))
+        if not files and os.path.exists(f"{folder}/seg_{i:02d}.wav"):
+            files, lines = [f"{folder}/seg_{i:02d}.wav"], [{"pause": 0}]
+        scene_pause = sc.get("pause", 0.6 if i == len(parts) - 1 else 0.4)
+        t, tim = 0.0, []
+        for j, f in enumerate(files):
+            tmp = os.path.join(work, f"seg{i}_{j}.wav")
+            run(f"ffmpeg -v error -y -i {f} -af silenceremove=start_periods=1:start_threshold=-45dB,"
+                f"areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse -ar {sr} -ac 1 {tmp}")
+            a, _ = sf.read(tmp, dtype="float32")
+            pause = (lines[j] if j < len(lines) else {}).get("pause", 0.12)
+            tim.append((t, t + len(a) / sr))
+            out += [a, np.zeros(int(sr * pause), dtype=np.float32)]
+            t += len(a) / sr + pause
+        if not files:
+            t = sc.get("silence", 1.5)
+            out.append(np.zeros(int(sr * t), dtype=np.float32))
+        out.append(np.zeros(int(sr * scene_pause), dtype=np.float32))
+        durs.append(t + scene_pause)
+        timings.append(tim)
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
     run(f"ffmpeg -v error -y -i {raw} -af \"highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,"
         f"acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2\" -ar 24000 {work}/vo.wav")
-    return durs
+    return durs, timings
 
 
 def build_voice(spec, work):
     if spec.get("voice_dir"):
-        durs = build_voice_from_files(spec, work)
-        return durs, [[] for _ in durs]
+        return build_voice_from_files(spec, work)
     k = load_tts()
     style = None
     piper = Piper(spec["piper"], k) if spec.get("piper") else None
