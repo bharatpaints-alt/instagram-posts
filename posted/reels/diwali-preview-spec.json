@@ -16,7 +16,7 @@
   },
   "scenes": [
     {
-      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+      "media": "posted/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
       "crop": [
         841,
         1402,
@@ -87,7 +87,7 @@
     {
       "compare": {
         "before": {
-          "media": "new/IMG_2860.jpeg",
+          "media": "posted/IMG_2860.jpeg",
           "crop": [
             1479,
             2629,
@@ -97,7 +97,7 @@
           "zoom": "in"
         },
         "after": {
-          "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+          "media": "posted/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
           "crop": [
             789,
             1402,
@@ -182,7 +182,7 @@
       ]
     },
     {
-      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+      "media": "posted/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
       "crop": [
         841,
         1402,
@@ -256,7 +256,7 @@
       ]
     },
     {
-      "media": "new/IMG_2860.jpeg",
+      "media": "posted/IMG_2860.jpeg",
       "crop": [
         1479,
         2629,
@@ -332,7 +332,7 @@
       ]
     },
     {
-      "media": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+      "media": "posted/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
       "crop": [
         789,
         1402,
@@ -405,7 +405,7 @@
     "title": "Likhein: \"GIO PAINTS\"",
     "subtitle": "Free preview • Sirf Diwali tak",
     "button": "WhatsApp karein",
-    "bg": "new/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
+    "bg": "posted/BFD5F1D0-E738-4C1B-B8E3-13B5A23C819F.png",
     "bg_crop": [
       841,
       1402,
