@@ -1,5 +1,5 @@
 {
- "voice_dir": "review/voice/painter-cover",
+ "voice_dir": "posted/reels/voice/painter-cover",
  "voice_note": "Gaurav's own recording (gaurav-original.m4a), cut per line",
  "music_seed": 5,
  "bpm": 112,
@@ -17,7 +17,7 @@
  },
  "scenes": [
   {
-   "media": "new/painting-in-progress.mp4",
+   "media": "posted/painting-in-progress.mp4",
    "start": 11.5,
    "pause": 0.1,
    "lines": [
@@ -46,7 +46,7 @@
    ]
   },
   {
-   "media": "new/painting-in-progress.mp4",
+   "media": "posted/painting-in-progress.mp4",
    "start": 0.0,
    "pause": 0.1,
    "lines": [
@@ -75,7 +75,7 @@
    ]
   },
   {
-   "media": "new/painting-in-progress.mp4",
+   "media": "posted/painting-in-progress.mp4",
    "start": 3.6,
    "pause": 0.1,
    "tags": [
@@ -115,7 +115,7 @@
    ]
   },
   {
-   "media": "new/painting-in-progress.mp4",
+   "media": "posted/painting-in-progress.mp4",
    "start": 8.6,
    "pause": 0.1,
    "lines": [
@@ -146,11 +146,11 @@
   {
    "compare": {
     "before": {
-     "media": "review/frames/painter-before.jpg",
+     "media": "posted/reels/frames/painter-before.jpg",
      "zoom": "in"
     },
     "after": {
-     "media": "review/frames/final-room.jpg",
+     "media": "posted/reels/frames/final-room.jpg",
      "zoom": "in"
     },
     "at_line": 1,
@@ -206,7 +206,7 @@
    ]
   },
   {
-   "media": "new/final-work.mp4",
+   "media": "posted/final-work.mp4",
    "start": 8.2,
    "silence": 2.4,
    "pause": 0.0,
@@ -222,7 +222,7 @@
   "title": "Likhein: \"PAINTER\"",
   "subtitle": "Painter + paint, sab ek jagah",
   "button": "WhatsApp karein",
-  "bg": "review/frames/final-design.jpg",
+  "bg": "posted/reels/frames/final-design.jpg",
   "silence": 4.5,
   "pause": 0.0
  }
