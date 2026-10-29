@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Admin · ReelFlow{% endblock %}
+{% block who %}Admin{% endblock %}
+{% block body %}
+<div class="card"><div class="row" style="align-items:center"><h1 style="margin:0">Clients ({{ rows|length }})</h1>
+<a class="btn" style="flex:0;white-space:nowrap" href="/admin/{{ tok }}/signup">+ Naya client</a></div></div>
+{% for r in rows %}
+<div class="card">
+  <div class="row" style="align-items:center"><h2 style="margin:0"><a href="/admin/{{ tok }}/client/{{ r.c.id }}">{{ r.c.name }}</a></h2>
+  <span class="pill {% if r.st.error %}err{% elif r.st.stage=='in_review' %}{% else %}ok{% endif %}" style="flex:0;white-space:nowrap">{{ r.st.stage }}</span></div>
+  <p class="muted">{{ r.c.instagram_handle }} · voice: {{ r.c.voice.engine }}{% if not r.voice_ok %} (no sample yet){% endif %} · updated {{ r.st.updated or '-' }}</p>
+  {% if r.st.error %}<p class="muted">Error: {{ r.st.error[:240] }}</p>{% endif %}
+  <p class="muted">Client link: <a href="{{ r.link }}">{{ r.link }}</a></p>
+  <div class="row">
+    <form method="post" action="/admin/{{ tok }}/client/{{ r.c.id }}/nudge"><button class="btn sec" style="width:100%">Nudge now</button></form>
+    <form method="post" action="/admin/{{ tok }}/client/{{ r.c.id }}/make"><button class="btn sec" style="width:100%">Make now</button></form>
+    <form method="post" action="/admin/{{ tok }}/client/{{ r.c.id }}/reset"><button class="btn sec" style="width:100%">Reset</button></form>
+  </div>
+  {% if r.st.stage == 'approved' %}
+  <form method="post" action="/admin/{{ tok }}/client/{{ r.c.id }}/posted" class="row" style="margin-top:8px">
+    <input name="permalink" placeholder="Instagram link after posting" required><button style="flex:0">Posted</button></form>
+  {% endif %}
+</div>
+{% endfor %}
+<div class="card"><h2>Waiting to publish ({{ pending|length }})</h2>
+{% for p in pending %}<p><b>{{ p.name }}</b> · <a href="{{ p.media_url }}">reel</a></p>{% else %}<p class="muted">Nothing.</p>{% endfor %}
+<p class="muted">The Claude routine reads <code>/api/&lt;token&gt;/pending</code>, posts via Uplika, then calls <code>/api/&lt;token&gt;/posted</code>.</p></div>
+<div class="card"><h2>Log</h2><pre>{% for l in log %}{{ l }}
+{% else %}-{% endfor %}</pre></div>
+{% endblock %}

@@ -1,7 +1,7 @@
 """Pick the next upload batch and turn it into frames Claude can look at."""
 import os
 
-from .common import REPO, frame, media_kind, repo_path, sh, video_duration
+from .common import REPO, cpath, frame, media_kind, sh, video_duration
 
 
 def _added_at(path):
@@ -11,12 +11,14 @@ def _added_at(path):
 
 def next_batch(client, max_files=5):
     """Oldest upload first; files uploaded together (same commit time) form one Reel."""
-    inbox = repo_path(client["paths"]["inbox"])
+    inbox = cpath(client, "inbox")
     files = [os.path.join(inbox, f) for f in sorted(os.listdir(inbox))
              if not f.startswith(".") and media_kind(f)] if os.path.isdir(inbox) else []
     if not files:
         return []
-    stamped = sorted((_added_at(f), f) for f in files)
+    # web uploads are saved as "<batch>__<name>"; GitHub uploads are grouped by commit time
+    key = lambda f: os.path.basename(f).split("__")[0] if "__" in os.path.basename(f) else _added_at(f)
+    stamped = sorted(((str(key(f)), f) for f in files), key=lambda x: (x[0].zfill(20), x[1]))
     first = stamped[0][0]
     return [f for t, f in stamped if t == first][:max_files]
 

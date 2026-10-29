@@ -7,6 +7,8 @@
   posted  <client> <link>       publish confirmed -> archive files, back to idle
   daily                         every client: nudge, then make if photos are waiting
   status  [client]
+  tick                          one scheduler pass (cron every minute if not using the web app's thread)
+  serve                         web app on :8000 (needs ADMIN_TOKEN, PUBLIC_BASE_URL)
 """
 import json
 import sys
@@ -26,6 +28,14 @@ def main(argv):
                 c = load_client(cid)
                 print(cid, "nudge ->", pipeline.nudge(c))
                 print(cid, "make  ->", pipeline.make(c))
+        elif cmd == "tick":
+            from . import scheduler
+            scheduler.tick()
+        elif cmd == "serve":
+            import os
+            import uvicorn
+            sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            uvicorn.run("web.app:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
         elif cmd == "status":
             for cid in args or list_clients():
                 st = load_state(load_client(cid))

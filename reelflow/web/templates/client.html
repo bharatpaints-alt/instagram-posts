@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name }} · ReelFlow{% endblock %}
+{% block who %}{{ c.instagram_handle }}{% endblock %}
+{% block body %}
+<div class="card">
+  <span class="pill {% if st.stage == 'in_review' %}{% elif st.error %}err{% endif %}">{{ stage_text }}</span>
+  <h1>Namaste {{ c.owner or c.name }} ji</h1>
+  {% if st.error %}<p class="muted">Pichhli baar dikkat aayi: {{ st.error[:200] }}. Hum dekh rahe hain.</p>{% endif %}
+  {% if not (c.voice.sample or c.voice.sarvam_voice_id) %}
+  <p><a class="btn" href="/c/{{ c.id }}/{{ tok }}/voice">Pehle apni awaaz record kijiye (30 sec)</a></p>
+  {% endif %}
+</div>
+
+{% if st.stage in ['in_review','approved'] and reel %}
+<div class="card">
+  <h2>Aapki Reel {% if st.version and st.version > 1 %}(version {{ st.version }}){% endif %}</h2>
+  <video src="{{ reel }}" controls playsinline preload="metadata"></video>
+  {% if st.stage == 'in_review' %}
+  <form method="post" action="/c/{{ c.id }}/{{ tok }}/approve" style="margin-top:12px"><button class="btn yes">Yes, post karo</button></form>
+  <form method="post" action="/c/{{ c.id }}/{{ tok }}/change" style="margin-top:12px">
+    <label for="ch">Kuch badalna hai?</label>
+    <textarea id="ch" name="text" placeholder="Jaise: hook aur zor se, last line hatao, photo 2 pehle dikhao"></textarea>
+    <button class="btn sec" style="width:100%">Change bhejo</button>
+  </form>
+  {% else %}<p class="muted">Approved. Post hote hi link yahan aayega.</p>{% endif %}
+</div>
+<div class="card"><h2>Caption</h2><pre>{{ st.caption }}</pre>
+  {% if st.plan and st.plan.script_roman %}<h2>Script</h2><ol>{% for l in st.plan.script_roman %}<li>{{ l }}</li>{% endfor %}</ol>{% endif %}
+  <p class="muted">Awaaz: {{ st.voice_engine }}</p></div>
+{% endif %}
+
+{% if busy %}
+<div class="card"><h2>Reel ban rahi hai...</h2><p class="muted">5-15 minute. Ye page apne aap refresh hoga.</p></div>
+<script>setTimeout(()=>location.reload(),20000)</script>
+{% endif %}
+
+{% if st.trend and st.stage in ['idle','nudged'] %}
+<div class="card"><h2>Aaj ka idea</h2><p>{{ st.trend.trend_line }}</p>
+  <ol>{% for s in st.trend.shots %}<li>{{ s }}</li>{% endfor %}</ol></div>
+{% endif %}
+
+<div class="card">
+  <h2>Photo / video bhejiye</h2>
+  <form method="post" action="/c/{{ c.id }}/{{ tok }}/upload" enctype="multipart/form-data">
+    <div class="drop"><input type="file" name="files" accept="image/*,video/*" multiple required>
+    <p class="muted">Ek Reel ke liye 1-5 files. Phone khada rakh ke (9:16) shoot kijiye.</p></div>
+    <button style="width:100%;margin-top:10px">Upload</button>
+  </form>
+  {% if waiting %}<p class="muted">Line me: {{ waiting|join(', ') }}</p>{% endif %}
+</div>
+
+{% if history %}
+<div class="card"><h2>Post ho chuki Reels</h2><ul>
+{% for h in history %}<li>{{ h.date }} · <a href="{{ h.permalink }}">{{ h.permalink }}</a></li>{% endfor %}</ul></div>
+{% endif %}
+<p class="muted"><a href="/c/{{ c.id }}/{{ tok }}/voice">Awaaz dobara record karein</a></p>
+{% endblock %}

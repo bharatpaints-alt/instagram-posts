@@ -2,7 +2,7 @@
 import os
 import re
 
-from .common import REPO, ReelFlowError, frame, media_kind, repo_path
+from .common import REPO, ReelFlowError, asset, frame, media_kind, repo_path
 from .llm import ask_json
 
 RULES = """You write 30-45 second Instagram Reel scripts for a small local business in India, spoken in the owner's voice.
@@ -125,7 +125,8 @@ def to_spec(client, plan, work, voice_fields):
         vid = next(s["media"] for s in scenes if s.get("media"))
         first_still = frame(repo_path(vid), max(0.5, video_duration(repo_path(vid)) - 1.5), os.path.join(work, "cta_bg.jpg"))
     spec = {"music_seed": 5, "bpm": 112, "music_volume": 0.5, "sfx": True, "lead": 0.1,
-            "brand": {**client["brand_assets"], "whatsapp": client["whatsapp"], "address": client["address"],
+            "brand": {"logo_small": asset(client, client["brand_assets"]["logo_small"]),
+                      "logo_big": asset(client, client["brand_assets"]["logo_big"]), "whatsapp": client["whatsapp"], "address": client["address"],
                       "tagline1": client["tagline"][0], "tagline2": client["tagline"][1],
                       "handle": client["instagram_handle"]},
             "scenes": scenes,

@@ -9,7 +9,7 @@ import urllib.request
 PKG = os.path.dirname(os.path.abspath(__file__))
 RF_ROOT = os.path.dirname(PKG)                 # reelflow/
 REPO = os.path.dirname(RF_ROOT)                # repo root (engine/ lives here)
-CLIENTS = os.path.join(RF_ROOT, "clients")
+CLIENTS = os.environ.get("REELFLOW_DATA", os.path.join(RF_ROOT, "clients"))  # server: a persistent disk
 ENGINE = os.path.join(REPO, "engine", "make_reel.py")
 
 VIDEO_EXT = (".mp4", ".mov", ".m4v", ".webm")
@@ -31,6 +31,30 @@ def repo_path(rel):
     return rel if os.path.isabs(rel) else os.path.join(REPO, rel)
 
 
+def cpath(c, key):
+    """A client folder (inbox/review/posted...). Relative paths: to the client folder when paths_base == "client"
+    (web sign-ups), else to the repo root (Bharat Paints pilot layout)."""
+    rel = c["paths"][key]
+    if os.path.isabs(rel):
+        return rel
+    return os.path.join(c["_dir"], rel) if c.get("paths_base") == "client" else os.path.join(REPO, rel)
+
+
+def asset(c, rel):
+    if os.path.isabs(rel):
+        return rel
+    return os.path.join(c["_dir"], rel) if c.get("paths_base") == "client" else os.path.join(REPO, rel)
+
+
+def save_client(c):
+    d = c.get("_dir") or os.path.join(CLIENTS, c["id"])
+    os.makedirs(d, exist_ok=True)
+    json.dump({k: v for k, v in c.items() if not k.startswith("_")}, open(os.path.join(d, "client.json"), "w"),
+              ensure_ascii=False, indent=1)
+    c["_dir"] = d
+    return c
+
+
 def load_client(cid):
     path = os.path.join(CLIENTS, cid, "client.json")
     if not os.path.exists(path):
@@ -41,7 +65,10 @@ def load_client(cid):
 
 
 def list_clients():
-    return sorted(d for d in os.listdir(CLIENTS) if os.path.exists(os.path.join(CLIENTS, d, "client.json")))
+    if not os.path.isdir(CLIENTS):
+        return []
+    return sorted(d for d in os.listdir(CLIENTS)
+                  if not d.startswith("_") and os.path.exists(os.path.join(CLIENTS, d, "client.json")))
 
 
 # ---------- state: one JSON per client ----------
@@ -63,6 +90,17 @@ def outbox(c, kind, payload):
     path = os.path.join(d, f"{time.strftime('%Y%m%d-%H%M%S')}-{kind}.json")
     json.dump({"kind": kind, **payload}, open(path, "w"), ensure_ascii=False, indent=1)
     return path
+
+
+class render_lock:
+    """One render at a time (the engine shares engine/.cache/work)."""
+    def __enter__(self):
+        import fcntl
+        self.f = open(os.path.join(REPO, "engine", ".render.lock"), "w")
+        fcntl.flock(self.f, fcntl.LOCK_EX)
+
+    def __exit__(self, *a):
+        self.f.close()
 
 
 # ---------- HTTP ----------

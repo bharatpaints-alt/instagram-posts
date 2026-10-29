@@ -12,7 +12,7 @@ import shutil
 import time
 import urllib.request
 
-from .common import ReelFlowError, sh
+from .common import ReelFlowError, asset, b64, sh
 
 
 def _lines(spec):
@@ -24,14 +24,18 @@ def _lines(spec):
 def _sarvam(client, spec, name, work):
     if not (os.environ.get("SARVAM_API_KEY") or os.path.exists(os.path.expanduser("~/.sarvam_key"))):
         raise ReelFlowError("SARVAM_API_KEY not set")
+    if not client["voice"].get("sarvam_voice_id"):
+        raise ReelFlowError("no Sarvam voice id for this client yet")
     return {"sarvam_voice": client["voice"]["sarvam_voice_id"]}
 
 
 def _opensource_http(client, spec, name, out_dir):
     url = os.environ["OPENVOICE_URL"]
+    sample = client["voice"].get("sample")
+    ref = b64(asset(client, sample)) if sample else None
     for i, j, text in _lines(spec):
         body = json.dumps({"voice": client["voice"]["opensource_ref"], "text": text, "language": "hi",
-                           "exaggeration": 0.65, "cfg_weight": 0.4}).encode()
+                           "exaggeration": 0.65, "cfg_weight": 0.4, "ref_audio_b64": ref}).encode()
         req = urllib.request.Request(url, data=body, headers={"content-type": "application/json",
                                                               "authorization": f"Bearer {os.environ.get('OPENVOICE_TOKEN', '')}"})
         with urllib.request.urlopen(req, timeout=300) as r:

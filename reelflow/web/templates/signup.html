@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}New client · ReelFlow{% endblock %}
+{% block who %}Admin{% endblock %}
+{% block body %}
+<form class="card" method="post" action="/admin/{{ tok }}/signup" enctype="multipart/form-data">
+  <h1>Naya client</h1>
+  <label>Business name *</label><input name="name" required>
+  <div class="row"><div><label>Owner</label><input name="owner"></div><div><label>Email</label><input name="email" type="email"></div></div>
+  <div class="row"><div><label>Instagram ID</label><input name="instagram" placeholder="@handle"></div><div><label>WhatsApp *</label><input name="whatsapp" required></div></div>
+  <div class="row"><div><label>City</label><input name="city"></div><div><label>Nudge time</label><input name="nudge_time" value="09:00"></div></div>
+  <label>Address</label><input name="address">
+  <label>Facts the Reels may use (one per line: services, since when, proof)</label>
+  <textarea name="facts" placeholder="Since 1990&#10;Free home visit for measurement"></textarea>
+  <label>Brands sold</label><input name="brands">
+  <label>Niche (what the business does, for whom)</label><input name="niche" placeholder="Furniture shop for homes in Karnal">
+  <label>YouTube search words (comma separated)</label><input name="youtube_queries" placeholder="sofa design ideas, bedroom makeover India">
+  <label>Tagline (2 lines)</label><textarea name="tagline" style="min-height:60px"></textarea>
+  <label>Tagline in Devanagari (spoken at the end)</label><input name="tagline_hi">
+  <label>Brand line for captions</label><input name="brand_line">
+  <label>Hashtags (space separated)</label><input name="hashtags" placeholder="#Karnal #MyShop">
+  <label>Logo</label><input type="file" name="logo" accept="image/*">
+  <div class="row"><div><label>Plan</label><select name="plan"><option value="basic">Basic (free open-source voice)</option><option value="premium">Premium (Sarvam voice)</option></select></div>
+  <div><label>Uplika connection id</label><input name="uplika_connection_id" placeholder="conn_..."></div></div>
+  <button style="width:100%">Client banao</button>
+</form>
+{% endblock %}

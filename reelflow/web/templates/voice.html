@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Awaaz · ReelFlow{% endblock %}
+{% block who %}{{ c.name }}{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>Apni awaaz record kijiye</h1>
+  <p>Shaant jagah, phone munh se ek haath door. Neeche likha <b>josh se, dukaan pe customer se baat karte hue</b> padhiye (30-40 sec). Isi se aapki har Reel ki awaaz banegi.</p>
+  <pre style="font-size:17px;line-height:1.7">{{ sample_text }}</pre>
+  <div class="row"><button id="rec">Record shuru</button><button id="stop" class="btn sec" disabled>Rok do</button></div>
+  <p id="t" class="muted"></p>
+  <audio id="play" controls style="width:100%;display:none"></audio>
+  <form id="f" method="post" action="/c/{{ c.id }}/{{ tok }}/voice" enctype="multipart/form-data">
+    <p class="muted">Ya phone ki recording (voice note) yahan chuniye:</p>
+    <input id="file" type="file" name="file" accept="audio/*,video/*">
+    <button style="width:100%">Save karo</button>
+  </form>
+</div>
+<script>
+let mr, chunks=[], t0, timer;
+const rec=document.getElementById('rec'), stop=document.getElementById('stop'), t=document.getElementById('t');
+rec.onclick=async()=>{
+  try{const s=await navigator.mediaDevices.getUserMedia({audio:true});mr=new MediaRecorder(s);}catch(e){t.textContent='Mic nahi mila: niche file chuniye.';return;}
+  chunks=[];mr.ondataavailable=e=>chunks.push(e.data);
+  mr.onstop=()=>{const b=new Blob(chunks,{type:mr.mimeType||'audio/webm'});const a=document.getElementById('play');a.src=URL.createObjectURL(b);a.style.display='block';
+    const dt=new DataTransfer();dt.items.add(new File([b],'sample.webm',{type:b.type}));document.getElementById('file').files=dt.files;
+    t.textContent='Sun lijiye, theek ho to "Save karo" dabaiye.';clearInterval(timer);mr.stream.getTracks().forEach(x=>x.stop());};
+  mr.start();t0=Date.now();rec.disabled=true;stop.disabled=false;
+  timer=setInterval(()=>{t.textContent='Recording... '+Math.round((Date.now()-t0)/1000)+' sec'},500);
+};
+stop.onclick=()=>{mr.stop();rec.disabled=false;stop.disabled=true;};
+</script>
+{% endblock %}

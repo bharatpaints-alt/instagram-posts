@@ -1,2 +1,6 @@
 __pycache__/
 reelflow/clients/*/work/
+reelflow/clients/*/secret.txt
+reelflow/clients/*/outbox/
+reelflow/clients/*/voice/
+engine/.render.lock

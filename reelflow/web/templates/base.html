@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}ReelFlow{% endblock %}</title>
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1d1b16;--muted:#6b665c;--line:#e4dfd4;--accent:#ffd23f;--accent-ink:#1d1b16;--go:#1f8a4c;--warn:#b5520e;--btn:#1d1b16}
+@media (prefers-color-scheme:dark){:root{--bg:#141310;--card:#1f1d19;--ink:#f3efe6;--muted:#a59f92;--line:#34312b;--btn:#ffd23f;--accent-ink:#1d1b16}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;align-items:center;gap:10px;padding:14px 16px;max-width:640px;margin:0 auto}
+header .dot{width:14px;height:14px;border-radius:4px;background:var(--accent)}
+header b{font-size:17px}header span{color:var(--muted);font-size:14px;margin-left:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+h1{font-size:22px;margin:4px 0 8px}h2{font-size:17px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:14px}.pill{display:inline-block;padding:3px 10px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:13px}
+.pill.err{background:#f3d2c1;color:#7a2e08}.pill.ok{background:#cfead8;color:#11522c}
+.msg{background:#fff6cc;color:#3d3300;border-radius:10px;padding:10px 12px;margin:8px 0}
+button,.btn{display:inline-block;border:0;border-radius:10px;padding:12px 16px;font:600 16px system-ui;background:var(--btn);color:var(--bg);cursor:pointer;text-decoration:none;text-align:center}
+.btn.yes{background:var(--go);color:#fff;width:100%;font-size:18px;padding:14px}.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:15px system-ui;margin:4px 0 10px}
+label{font-weight:600;font-size:14px}textarea{min-height:90px}
+video{width:100%;max-height:70vh;border-radius:12px;background:#000}
+ol,ul{padding-left:20px;margin:6px 0}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;overflow:auto}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:18px;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="dot"></div><b>ReelFlow</b><span>{% block who %}{% endblock %}</span></header>
+<main>
+{% if msg %}<div class="msg">{{ msg }}</div>{% endif %}
+{% block body %}{% endblock %}
+</main>
+</body>
+</html>

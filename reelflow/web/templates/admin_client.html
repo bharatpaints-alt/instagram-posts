@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name }} · Admin{% endblock %}
+{% block who %}Admin{% endblock %}
+{% block body %}
+<p><a href="/admin/{{ tok }}">&larr; All clients</a></p>
+<div class="card"><h1>{{ c.name }}</h1>
+  <p>Client link (send on WhatsApp): <a href="{{ link }}">{{ link }}</a></p>
+  <p class="muted">Stage: {{ st.stage }} · voice sample: {{ c.voice.sample or 'not yet' }}</p>
+  <form method="post" action="/admin/{{ tok }}/client/{{ c.id }}/newlink"><button class="btn sec">New link (old one stops)</button></form></div>
+<form class="card" method="post" action="/admin/{{ tok }}/client/{{ c.id }}">
+  <h2>Profile (JSON)</h2><p class="muted">Facts here are the only claims Reels may make. Set uplika_connection_id, voice.engine, voice.sarvam_voice_id here.</p>
+  <textarea name="json" style="min-height:420px;font:13px ui-monospace,monospace">{{ json }}</textarea>
+  <button style="width:100%">Save</button></form>
+{% endblock %}

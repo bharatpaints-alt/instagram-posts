@@ -10,9 +10,10 @@ import json
 import os
 import re
 import shutil
+import threading
 
 from . import media, script, trends, voice
-from .common import REPO, ReelFlowError, load_state, outbox, repo_path, save_state, sh
+from .common import REPO, ReelFlowError, cpath, load_state, outbox, render_lock, save_state, sh
 
 
 def nudge(client):
@@ -31,8 +32,27 @@ def _name(batch):
     return f"{dt.date.today():%Y%m%d}-" + re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")[:30]
 
 
+_locks = {}
+
+
+def busy(cid):
+    return _locks.setdefault(cid, threading.Lock()).locked()
+
+
 def make(client, change_request=None):
+    """One make per client at a time (upload, scheduler and change can race)."""
+    lock = _locks.setdefault(client["id"], threading.Lock())
+    if not lock.acquire(blocking=False):
+        raise ReelFlowError("a Reel is being made right now")
+    try:
+        return _make(client, change_request)
+    finally:
+        lock.release()
+
+
+def _make(client, change_request=None):
     st = load_state(client)
+    st["error"] = None
     if change_request:
         if st.get("stage") != "in_review":
             raise ReelFlowError("no Reel in review to change")
@@ -45,10 +65,24 @@ def make(client, change_request=None):
         if not batch:
             return None  # nothing uploaded: the nudge already asked for photos
         name, prev, version = _name(batch), None, 1
+    before = st.get("stage")
+    st.update(stage="rendering", rendering=name)
+    save_state(client, st)
+    try:
+        return _render(client, st, batch, name, prev, version, change_request)
+    except Exception as e:
+        st = load_state(client)
+        st.update(stage=before, error=f"{type(e).__name__}: {e}"[:800])
+        save_state(client, st)
+        outbox(client, "error", {"text": f"Reel {name} could not be made: {e}"[:800]})
+        raise
+
+
+def _render(client, st, batch, name, prev, version, change_request):
     work = os.path.join(client["_dir"], "work", name)
     frames, index = media.describe(batch, os.path.join(work, "frames"))
     plan = script.write_plan(client, frames, index, st.get("trend", {}), change_request, prev)
-    review = repo_path(client["paths"]["review"])
+    review = cpath(client, "review")
     os.makedirs(review, exist_ok=True)
     spec = script.to_spec(client, plan, work, {})
     voice_dir = os.path.join(review, "voice", name)
@@ -59,7 +93,8 @@ def make(client, change_request=None):
     spec_path = os.path.join(review, f"{name}-spec.json")
     reel = os.path.join(review, f"{name}-reel.mp4")
     json.dump(spec, open(spec_path, "w"), ensure_ascii=False, indent=1)
-    sh(["python3", os.path.join(REPO, "engine", "make_reel.py"), spec_path, reel])
+    with render_lock():
+        sh(["python3", os.path.join(REPO, "engine", "make_reel.py"), spec_path, reel])
     cap = script.caption(client, plan)
     open(os.path.join(review, f"{name}-caption.txt"), "w").write(cap)
     json.dump(plan, open(os.path.join(review, f"{name}-plan.json"), "w"), ensure_ascii=False, indent=1)
@@ -73,12 +108,14 @@ def make(client, change_request=None):
         "ask": "Reply yes to post, or tell me what to change."})
 
 
-def approve(client, commit_sha):
-    """Owner said yes. Returns the Uplika publish request (media must be pushed at commit_sha first)."""
+def approve(client, commit_sha=None, media_url=None):
+    """Owner said yes. Returns the Uplika publish request. The Reel must be at a public https URL:
+    the web app's own /files URL (media_url), or GitHub raw at commit_sha (pilot)."""
     st = load_state(client)
     if st.get("stage") != "in_review":
         raise ReelFlowError(f"nothing in review (stage = {st.get('stage')})")
-    req = {"media_url": f"{client['raw_base']}/{commit_sha}/{st['reel']}", "caption": st["caption"],
+    url = media_url or f"{client['raw_base']}/{commit_sha}/{st['reel']}"
+    req = {"media_url": url, "caption": st["caption"],
            "accountIds": [client["uplika_connection_id"]],
            "options": {"instagram": {"contentType": "reel", "shareToFeed": True}}, "wait": True}
     st["stage"] = "approved"
@@ -87,28 +124,40 @@ def approve(client, commit_sha):
     return outbox(client, "publish_request", req)
 
 
+def _mv(src, dst):
+    """git mv inside the repo (keeps history), plain move elsewhere (server data disk)."""
+    if not os.path.exists(src):
+        return
+    if sh(["git", "-C", REPO, "ls-files", "--error-unmatch", src], check=False).strip():
+        sh(["git", "-C", REPO, "mv", src, dst])
+    else:
+        shutil.move(src, dst)
+
+
 def posted(client, permalink):
     st = load_state(client)
     if st.get("stage") != "approved":
         raise ReelFlowError(f"not approved (stage = {st.get('stage')})")
-    pm, pr = repo_path(client["paths"]["posted_media"]), repo_path(client["paths"]["posted_reels"])
+    pm, pr = cpath(client, "posted_media"), cpath(client, "posted_reels")
     os.makedirs(pr, exist_ok=True)
+    os.makedirs(pm, exist_ok=True)
     moved = []
     for f in st["batch"]:
         dst = os.path.join(pm, os.path.basename(f))
-        sh(["git", "-C", REPO, "mv", f, dst], check=False) or (os.path.exists(f) and shutil.move(f, dst))
+        _mv(f, dst)
         moved.append(dst)
-    review = repo_path(client["paths"]["review"])
+    review = cpath(client, "review")
     for f in os.listdir(review):
         if f.startswith(st["name"]):
-            sh(["git", "-C", REPO, "mv", os.path.join(review, f), os.path.join(pr, f)], check=False)
+            _mv(os.path.join(review, f), os.path.join(pr, f))
     vd = os.path.join(review, "voice", st["name"])
     if os.path.isdir(vd):
         os.makedirs(os.path.join(pr, "voice"), exist_ok=True)
-        sh(["git", "-C", REPO, "mv", vd, os.path.join(pr, "voice", st["name"])], check=False)
+        _mv(vd, os.path.join(pr, "voice", st["name"]))
     st["history"].append({"name": st["name"], "permalink": permalink, "date": f"{dt.date.today()}"})
     for k in ("batch", "plan", "publish_request", "caption"):
         st.pop(k, None)
     st["stage"] = "idle"
+    st.pop("reel", None)
     save_state(client, st)
     return outbox(client, "posted", {"text": f"Reel live: {permalink}", "permalink": permalink})

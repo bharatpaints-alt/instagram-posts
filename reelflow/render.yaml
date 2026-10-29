@@ -1,0 +1,27 @@
+# Render.com blueprint (any Docker host works the same way). Needs a persistent disk for client data.
+services:
+  - type: web
+    name: reelflow
+    runtime: docker
+    dockerfilePath: reelflow/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    disk:
+      name: reelflow-data
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: OPENVOICE_URL
+        sync: false
+      - key: NOTIFY_WEBHOOK
+        sync: false
