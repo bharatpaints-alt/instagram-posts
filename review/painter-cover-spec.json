@@ -1,0 +1,314 @@
+{
+ "piper": "hi_IN-rohan-medium",
+ "voice": "hm_omega:0.5,hm_psi:0.5",
+ "music_seed": 5,
+ "bpm": 112,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "scenes": [
+  {
+   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "start": 11.5,
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "रुको!",
+       "hi"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.25,
+     "show": [
+      [
+       "RUKO!",
+       "yellow"
+      ]
+     ],
+     "pitch": 1.5,
+     "gain": 3
+    },
+    {
+     "vo": [
+      [
+       "पेंटर बुलाने से पहले... ये देखिए!",
+       "hi"
+      ]
+     ],
+     "speed": 1.08,
+     "pause": 0.1,
+     "show": [
+      [
+       "PAINTER SE PEHLE",
+       "white"
+      ],
+      [
+       "YE DEKHIYE!",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "start": 0.0,
+   "pause": 0.15,
+   "lines": [
+    {
+     "vo": [
+      [
+       "सबको एक ही डर होता है...",
+       "hi"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.2,
+     "show": [
+      [
+       "SABKO EK HI DARR...",
+       "white"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "दरवाज़ों पे छींटे! सामान पे दाग!",
+       "hi"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.1,
+     "show": [
+      [
+       "CHHEENTE?",
+       "white"
+      ],
+      [
+       "DAAG?",
+       "yellow"
+      ]
+     ],
+     "pitch": 1,
+     "gain": 2
+    }
+   ]
+  },
+  {
+   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "start": 3.8,
+   "pause": 0.15,
+   "tags": [
+    {
+     "text": "PLASTIC COVER",
+     "line": 1,
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "पर यहाँ देखिए...",
+       "hi"
+      ]
+     ],
+     "speed": 0.9,
+     "pause": 0.3,
+     "show": [
+      [
+       "PAR YAHAN...",
+       "white"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "हर दरवाज़ा, हर चौखट... पहले प्लास्टिक से पैक!",
+       "hi"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.1,
+     "show": [
+      [
+       "HAR DARWAZA",
+       "white"
+      ],
+      [
+       "HAR CHAUKHAT",
+       "white"
+      ],
+      [
+       "PLASTIC SE PACK!",
+       "yellow"
+      ]
+     ],
+     "pitch": 1,
+     "gain": 2
+    }
+   ]
+  },
+  {
+   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "start": 8.0,
+   "pause": 0.15,
+   "lines": [
+    {
+     "vo": [
+      [
+       "फिर छत से काम शुरू।",
+       "hi"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.25,
+     "show": [
+      [
+       "PHIR CHHAT SE SHURU",
+       "white"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "आराम से... ध्यान से।",
+       "hi"
+      ]
+     ],
+     "speed": 0.88,
+     "pause": 0.1,
+     "show": [
+      [
+       "AARAAM SE,",
+       "white"
+      ],
+      [
+       "DHYAAN SE.",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "new/VIDEO-2026-10-29-20-18-13.mp4",
+   "start": 9.6,
+   "pause": 0.2,
+   "lines": [
+    {
+     "vo": [
+      [
+       "आपको मिलेगा नया रंग...",
+       "hi"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.15,
+     "show": [
+      [
+       "AAPKO MILEGA",
+       "white"
+      ],
+      [
+       "NAYA RANG",
+       "yellow"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "और दरवाज़े सेफ़!",
+       "hi"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.25,
+     "show": [
+      [
+       "AUR DARWAZE SAFE!",
+       "yellow"
+      ]
+     ],
+     "pitch": 2,
+     "gain": 3
+    },
+    {
+     "vo": [
+      [
+       "दिवाली से पहले पेंटिंग करवानी है?",
+       "hi"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.05,
+     "show": [
+      [
+       "DIWALI SE PEHLE",
+       "white"
+      ],
+      [
+       "PAINTING?",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "Likhein: \"PAINTER\"",
+  "subtitle": "Painter + paint, sab ek jagah",
+  "button": "WhatsApp karein",
+  "bg": "review/frames/painter-cover-cta.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "अभी वॉट्सऐप पे लिखिए... पेंटर!",
+      "hi"
+     ]
+    ],
+    "speed": 1.0,
+    "pause": 0.25,
+    "pitch": 1,
+    "gain": 3
+   },
+   {
+    "vo": [
+     [
+      "भारत पेंट्स, करनाल।",
+      "hi"
+     ]
+    ],
+    "speed": 0.95,
+    "pause": 0.25
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 0.88,
+    "pause": 0
+   }
+  ]
+ }
+}
