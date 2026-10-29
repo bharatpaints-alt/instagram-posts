@@ -1,0 +1,49 @@
+{
+  "id": "bharat-paints",
+  "name": "Bharat Paints",
+  "owner": "Gaurav Kumar Munjal",
+  "instagram_handle": "@bharatpaints_1976",
+  "uplika_connection_id": "conn_e40e24f69bb18267",
+  "language": "hi",
+  "city": "Karnal, Haryana",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline": ["Rango ki duniya main rakhe kadam", "Bharat Paints ke sang!"],
+  "tagline_hi": "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+  "brand_line": "1976 se Karnal ka bharosa — Asian Paints, Dulux, Berger, Nerolac, Dr. Fixit, GIO Paints aur Kupsa Wood Coatings, sab ek hi jagah.",
+  "facts": [
+    "Bharat Paints, since 1976, SCO 30, Bhagat Singh Market, Karnal. WhatsApp: 93558 60009.",
+    "Brands: Asian Paints, Dulux, Berger, Nerolac, Dr. Fixit, GIO Paints (own brand), Kupsa Wood Coatings.",
+    "Provides painters / full painting service.",
+    "GIO Fast Drying Paints are used in 200+ rice mills; Bharat Paints also provides painters for rice mills.",
+    "Seepage diagnosis service: site visit plus a report of the cause and the fix."
+  ],
+  "niche": {
+    "description": "Paint shop + painting service for homes, shops and rice mills in Karnal",
+    "youtube_queries": ["home painting India", "wall paint colour ideas", "waterproofing seepage solution", "texture wall design", "house painting before after"],
+    "region": "IN"
+  },
+  "pronunciation": {"GIO": "जियो", "WhatsApp": "वॉट्सऐप", "Paints": "पेंट्स"},
+  "hashtags": ["#BharatPaints", "#Karnal", "#KarnalPainters", "#HomePainting", "#WallPainting", "#GIOPaints", "#Haryana"],
+  "brand_assets": {
+    "logo_small": "engine/assets/logo_small.png",
+    "logo_big": "engine/assets/logo_big.png"
+  },
+  "voice": {
+    "engine": "sarvam",
+    "fallback": "piper",
+    "sarvam_voice_id": "svc-38314a5f-36dc-4276-98da-94973af10cec",
+    "opensource_ref": "bharatpaintsvoice-",
+    "piper_model": "hi_IN-rohan-medium"
+  },
+  "paths": {
+    "inbox": "new",
+    "review": "review",
+    "posted_media": "posted",
+    "posted_reels": "posted/reels"
+  },
+  "upload_link": "https://github.com/bharatpaints-alt/instagram-posts/upload/main/new",
+  "raw_base": "https://raw.githubusercontent.com/bharatpaints-alt/instagram-posts",
+  "nudge_time": "09:00",
+  "timezone": "Asia/Kolkata"
+}

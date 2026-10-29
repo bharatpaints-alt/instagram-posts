@@ -1,0 +1,86 @@
+"""Voice engines. The client records ~30 s once; every Reel's audio is then generated automatically.
+
+engine = "sarvam"      premium clone (SARVAM_API_KEY); the render engine calls Sarvam itself
+engine = "opensource"  free clone (Chatterbox-style) on a GPU endpoint (OPENVOICE_URL) or the GitHub-Action voice repo
+                       (OPENVOICE_REPO = local clone with push access); one WAV per spoken line -> exact text sync
+engine = "piper"       built-in Hindi voice, no clone; used as the automatic fallback
+Returns (spec_fields, engine_used, note).
+"""
+import json
+import os
+import shutil
+import time
+import urllib.request
+
+from .common import ReelFlowError, sh
+
+
+def _lines(spec):
+    """All spoken lines in order: [(scene_index, line_index, text)]; CTA = last scene index."""
+    parts = spec["scenes"] + [spec["cta"]]
+    return [(i, j, " ".join(t for t, _ in ln["vo"])) for i, sc in enumerate(parts) for j, ln in enumerate(sc.get("lines", []))]
+
+
+def _sarvam(client, spec, name, work):
+    if not (os.environ.get("SARVAM_API_KEY") or os.path.exists(os.path.expanduser("~/.sarvam_key"))):
+        raise ReelFlowError("SARVAM_API_KEY not set")
+    return {"sarvam_voice": client["voice"]["sarvam_voice_id"]}
+
+
+def _opensource_http(client, spec, name, out_dir):
+    url = os.environ["OPENVOICE_URL"]
+    for i, j, text in _lines(spec):
+        body = json.dumps({"voice": client["voice"]["opensource_ref"], "text": text, "language": "hi",
+                           "exaggeration": 0.65, "cfg_weight": 0.4}).encode()
+        req = urllib.request.Request(url, data=body, headers={"content-type": "application/json",
+                                                              "authorization": f"Bearer {os.environ.get('OPENVOICE_TOKEN', '')}"})
+        with urllib.request.urlopen(req, timeout=300) as r:
+            open(os.path.join(out_dir, f"seg_{i:02d}_{j:02d}.wav"), "wb").write(r.read())
+
+
+def _opensource_repo(client, spec, name, out_dir, timeout_min=40):
+    repo = os.environ["OPENVOICE_REPO"]
+    lines = _lines(spec)
+    job = {"exaggeration": 0.65, "cfg_weight": 0.4, "segments": [[[t, "hi"]] for _, _, t in lines]}
+    os.makedirs(os.path.join(repo, "jobs"), exist_ok=True)
+    json.dump(job, open(os.path.join(repo, "jobs", f"{name}.json"), "w"), ensure_ascii=False, indent=1)
+    sh(f"cd {repo} && git add jobs/{name}.json && git commit -qm 'Voice job {name}' && git push -q")
+    deadline = time.time() + timeout_min * 60
+    outd = os.path.join(repo, "out", name)
+    while time.time() < deadline:
+        sh(f"cd {repo} && git pull -q", check=False)
+        if os.path.isdir(outd) and len([f for f in os.listdir(outd) if f.endswith('.wav')]) >= len(lines):
+            for k, (i, j, _) in enumerate(lines):
+                shutil.copy(os.path.join(outd, f"seg_{k:02d}.wav"), os.path.join(out_dir, f"seg_{i:02d}_{j:02d}.wav"))
+            return
+        time.sleep(60)
+    raise ReelFlowError(f"open-source voice job {name} did not finish in {timeout_min} min")
+
+
+def _opensource(client, spec, name, work, voice_dir):
+    os.makedirs(voice_dir, exist_ok=True)
+    if os.environ.get("OPENVOICE_URL"):
+        _opensource_http(client, spec, name, voice_dir)
+    elif os.environ.get("OPENVOICE_REPO"):
+        _opensource_repo(client, spec, name, voice_dir)
+    else:
+        raise ReelFlowError("no open-source voice backend (set OPENVOICE_URL or OPENVOICE_REPO)")
+    return {"voice_dir": voice_dir}
+
+
+def prepare(client, spec, name, work, voice_dir):
+    want = client["voice"]["engine"]
+    order = [want] + [e for e in [client["voice"].get("fallback", "piper"), "piper"] if e != want]
+    errors = []
+    for eng in dict.fromkeys(order):
+        try:
+            if eng == "sarvam":
+                return _sarvam(client, spec, name, work), eng, ""
+            if eng == "opensource":
+                return _opensource(client, spec, name, work, voice_dir), eng, ""
+            if eng == "piper":
+                note = f"Clone voice unavailable ({'; '.join(errors)}), Piper Hindi voice used." if errors else ""
+                return {"piper": client["voice"].get("piper_model", "hi_IN-rohan-medium")}, eng, note
+        except (ReelFlowError, KeyError, OSError) as e:
+            errors.append(f"{eng}: {e}")
+    raise ReelFlowError("no voice engine worked: " + "; ".join(errors))
