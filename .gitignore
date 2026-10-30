@@ -4,3 +4,4 @@ reelflow/clients/*/secret.txt
 reelflow/clients/*/outbox/
 reelflow/clients/*/voice/
 engine/.render.lock
+work/
