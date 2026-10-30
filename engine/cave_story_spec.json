@@ -1,0 +1,56 @@
+{
+  "piper": "hi_IN-rohan-medium",
+  "music_seed": 1,
+  "bpm": 80,
+  "music_volume": 0.16,
+  "clip_volume": 0.85,
+  "brand": {
+    "logo_small": "engine/assets/logo_small.png",
+    "logo_big": "engine/assets/logo_big.png",
+    "whatsapp": "93558 60009",
+    "address": "SCO 30, Bhagat Singh Market, Karnal",
+    "tagline1": "Rango ki duniya main rakhe kadam",
+    "tagline2": "Bharat Paints ke sang!",
+    "handle": "@bharatpaints_1976"
+  },
+  "beats": [
+    {
+      "media": "work/cave/v1_truck.mp4", "start": 0, "dur": 5.6,
+      "head": [["10,000 SAAL PEHLE...", "yellow"]],
+      "vo": [{"at": 0.6, "say": [["दस हज़ार साल पहले... जंगल में गिरी... एक बाल्टी।", "hi"]], "speed": 0.9,
+              "show": "Jungle mein giri... ek baalti!"}]
+    },
+    {
+      "media": "work/cave/v2_crouch.mp4", "start": 0.6, "dur": 6.6,
+      "caption": "Yeh kya bala hai?"
+    },
+    {
+      "media": "work/cave/v3_taste.mp4", "start": 0, "dur": 6.4,
+      "caption": "Khaane ki cheez nahi hai, bhai!"
+    },
+    {
+      "media": "work/cave/v4_paint.mp4", "start": 0, "dur": 3.8, "rate": 0.6,
+      "vo": [{"at": 0.2, "say": [["फिर बनी... दुनिया की पहली वॉल पेंटिंग!", "hi"]], "speed": 1.0,
+              "show": "Duniya ki pehli WALL PAINTING!"}]
+    },
+    {
+      "media": "work/cave/v5_storm.mp4", "start": 0, "dur": 7.8,
+      "vo": [{"at": 2.4, "say": [["पर फिर आई बारिश... और सब बह गया!", "hi"]], "speed": 0.92,
+              "show": "Par phir aayi baarish... sab beh gaya!"}]
+    },
+    {
+      "media": "work/cave/hero_bucket.png", "dur": 5.6, "zoom": "punch",
+      "head": [["SEEPAGE?", "yellow"], ["LEAKAGE?", "white"]],
+      "vo": [{"at": 0.4, "say": [["इनके पास तो सीपेज का इलाज नहीं था... पर आपके पास है!", "hi"]], "speed": 0.95,
+              "show": "Par aapke paas ilaaj hai!"}]
+    }
+  ],
+  "cta": {
+    "title": "Seepage ki jaanch - sirf Rs 500",
+    "subtitle": "Site visit + report  |  Since 1976",
+    "button": "WhatsApp karein",
+    "bg": "work/cave/hero_bucket.png",
+    "speed": 0.95,
+    "vo": [["सीपेज की जाँच, सिर्फ़ पाँच सौ रुपये में! आज ही वॉट्सऐप करें। रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!", "hi"]]
+  }
+}
