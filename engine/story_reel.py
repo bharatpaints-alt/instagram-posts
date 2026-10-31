@@ -70,8 +70,10 @@ def main(spec_path, out_path):
     spec = json.load(open(spec_path))
     work = os.path.join(m.CACHE, "story")
     os.makedirs(work, exist_ok=True)
-    k = m.load_tts()
-    voice = m.Piper(spec.get("piper", "hi_IN-rohan-medium"), k)
+    if spec.get("azure_voice"):
+        voice = m.AzureTTS(spec["azure_voice"], work)
+    else:
+        voice = m.Piper(spec.get("piper", "hi_IN-rohan-medium"), m.load_tts())
 
     def say(chunks, speed):
         a, sr = voice.create(chunks, speed)

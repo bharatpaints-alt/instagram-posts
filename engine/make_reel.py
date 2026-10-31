@@ -8,7 +8,7 @@ The Kokoro voice model (open source, GitHub releases) downloads itself on first 
 Spec format: see engine/README.md and engine/example_spec.json.
 """
 import glob
-import json, os, subprocess, sys, urllib.request
+import json, os, subprocess, sys, urllib.error, urllib.request
 
 import numpy as np
 import soundfile as sf
@@ -116,6 +116,39 @@ class SarvamClone:
         return (a if a.ndim == 1 else a.mean(1)), sr
 
 
+class AzureTTS:
+    """Microsoft Azure AI Speech neural voice (free tier: 0.5M characters/month; e.g. hi-IN-MadhurNeural, male).
+    Key from AZURE_SPEECH_KEY env var or ~/.azure_speech_key; region from AZURE_SPEECH_REGION (default centralindia).
+    Speed and pitch go into SSML <prosody>, so the voice itself rises and falls (no post-processing)."""
+
+    def __init__(self, voice, work):
+        self.voice, self.work = voice, work
+        self.key = os.environ.get("AZURE_SPEECH_KEY") or open(os.path.expanduser("~/.azure_speech_key")).read().strip()
+        region = os.environ.get("AZURE_SPEECH_REGION", "centralindia")
+        self.url = os.environ.get("AZURE_SPEECH_ENDPOINT") or f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
+        self.lang = "-".join(voice.split("-")[:2])
+
+    def ssml(self, chunks, speed, pitch=0):
+        from xml.sax.saxutils import escape
+        text = escape(" ".join(t for t, _ in chunks))
+        rate = f"{(speed - 1) * 100:+.0f}%"
+        return (f"<speak version='1.0' xml:lang='{self.lang}'><voice name='{self.voice}'>"
+                f"<prosody rate='{rate}' pitch='{pitch:+.1f}st'>{text}</prosody></voice></speak>")
+
+    def create(self, chunks, speed, pitch=0):
+        import io
+        req = urllib.request.Request(self.url, data=self.ssml(chunks, speed, pitch).encode("utf-8"), headers={
+            "Ocp-Apim-Subscription-Key": self.key, "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "riff-24khz-16bit-mono-pcm", "User-Agent": "reelflow"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                data = r.read()
+        except urllib.error.HTTPError as e:
+            sys.exit(f"Azure TTS failed: HTTP {e.code} {e.read()[:300]!r}")
+        a, sr = sf.read(io.BytesIO(data), dtype="float32")
+        return (a if a.ndim == 1 else a.mean(1)), sr
+
+
 def build_voice_from_files(spec, work):
     """Use ready-made WAVs (Gaurav's cloned voice, or his own recording).
     Per scene i (CTA = last): either seg_XX.wav (one file), or seg_XX_YY.wav (one file per line, so pop-text
@@ -161,6 +194,8 @@ def build_voice(spec, work):
     piper = Piper(spec["piper"], k) if spec.get("piper") else None
     if spec.get("sarvam_voice"):
         piper = SarvamClone(spec["sarvam_voice"], work)
+    if spec.get("azure_voice"):
+        piper = AzureTTS(spec["azure_voice"], work)
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
         v, w = part.split(":")
         s = k.get_voice_style(v) * float(w)
@@ -179,7 +214,11 @@ def build_voice(spec, work):
     for si, (lines, scene_pause) in enumerate(segs):
         t, tim = 0.0, []
         for li, ln in enumerate(lines):
-            a, sr = speak(k, style, ln["vo"], ln.get("speed", 0.95))
+            if spec.get("azure_voice"):   # Azure does speed + pitch itself via SSML prosody
+                a, sr = piper.create(ln["vo"], ln.get("speed", 0.95), ln.get("pitch", 0))
+                ln = {**ln, "pitch": 0}
+            else:
+                a, sr = speak(k, style, ln["vo"], ln.get("speed", 0.95))
             if spec.get("sarvam_voice"):
                 ln = {**ln, "pitch": 0}
             if ln.get("pitch") or ln.get("gain"):
@@ -199,7 +238,7 @@ def build_voice(spec, work):
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
     chain = ("highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2"
-             if spec.get("sarvam_voice") else VOICE_CHAIN)
+             if spec.get("sarvam_voice") or spec.get("azure_voice") else VOICE_CHAIN)
     run(f"ffmpeg -v error -y -i {raw} -af \"{chain}\" -ar 24000 {work}/vo.wav")
     return durs, timings
 

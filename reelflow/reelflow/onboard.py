@@ -62,7 +62,7 @@ def create_client(form, logo_path=None):
                    "youtube_queries": [q.strip() for q in (form.get("youtube_queries") or "").split(",") if q.strip()]
                    or [form.get("niche", name)], "region": "IN"},
          "pronunciation": {}, "hashtags": [h if h.startswith("#") else "#" + h for h in (form.get("hashtags") or "").split()],
-         "voice": {"engine": "sarvam" if form.get("plan") == "premium" else "opensource", "fallback": "piper",
+         "voice": {"engine": "sarvam" if form.get("plan") == "premium" else "opensource", "fallback": "azure", "azure_voice": "hi-IN-MadhurNeural",
                    "sarvam_voice_id": "", "opensource_ref": cid, "piper_model": "hi_IN-rohan-medium", "sample": ""},
          "plan": form.get("plan", "basic"),
          "paths_base": "client",

@@ -3,7 +3,8 @@
 engine = "sarvam"      premium clone (SARVAM_API_KEY); the render engine calls Sarvam itself
 engine = "opensource"  free clone (Chatterbox-style) on a GPU endpoint (OPENVOICE_URL) or the GitHub-Action voice repo
                        (OPENVOICE_REPO = local clone with push access); one WAV per spoken line -> exact text sync
-engine = "piper"       built-in Hindi voice, no clone; used as the automatic fallback
+engine = "azure"       Microsoft Azure neural voice (free tier 0.5M chars/month; AZURE_SPEECH_KEY), no clone
+engine = "piper"       built-in Hindi voice, no clone; used as the last fallback
 Returns (spec_fields, engine_used, note).
 """
 import json
@@ -27,6 +28,12 @@ def _sarvam(client, spec, name, work):
     if not client["voice"].get("sarvam_voice_id"):
         raise ReelFlowError("no Sarvam voice id for this client yet")
     return {"sarvam_voice": client["voice"]["sarvam_voice_id"]}
+
+
+def _azure(client):
+    if not (os.environ.get("AZURE_SPEECH_KEY") or os.path.exists(os.path.expanduser("~/.azure_speech_key"))):
+        raise ReelFlowError("AZURE_SPEECH_KEY not set")
+    return {"azure_voice": client["voice"].get("azure_voice", "hi-IN-MadhurNeural")}
 
 
 def _opensource_http(client, spec, name, out_dir):
@@ -74,7 +81,7 @@ def _opensource(client, spec, name, work, voice_dir):
 
 def prepare(client, spec, name, work, voice_dir):
     want = client["voice"]["engine"]
-    order = [want] + [e for e in [client["voice"].get("fallback", "piper"), "piper"] if e != want]
+    order = [want] + [e for e in [client["voice"].get("fallback", "azure"), "azure", "piper"] if e != want]
     errors = []
     for eng in dict.fromkeys(order):
         try:
@@ -82,6 +89,9 @@ def prepare(client, spec, name, work, voice_dir):
                 return _sarvam(client, spec, name, work), eng, ""
             if eng == "opensource":
                 return _opensource(client, spec, name, work, voice_dir), eng, ""
+            if eng == "azure":
+                note = f"Clone voice unavailable ({'; '.join(errors)}), Azure voice used." if errors else ""
+                return _azure(client), eng, note
             if eng == "piper":
                 note = f"Clone voice unavailable ({'; '.join(errors)}), Piper Hindi voice used." if errors else ""
                 return {"piper": client["voice"].get("piper_model", "hi_IN-rohan-medium")}, eng, note

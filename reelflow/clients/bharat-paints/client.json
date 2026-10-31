@@ -31,7 +31,8 @@
   },
   "voice": {
     "engine": "sarvam",
-    "fallback": "piper",
+    "fallback": "azure",
+    "azure_voice": "hi-IN-MadhurNeural",
     "sarvam_voice_id": "svc-38314a5f-36dc-4276-98da-94973af10cec",
     "opensource_ref": "bharatpaintsvoice-",
     "piper_model": "hi_IN-rohan-medium"
