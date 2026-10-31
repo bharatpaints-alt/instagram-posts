@@ -1,0 +1,282 @@
+{
+ "piper": "hi_IN-rohan-medium",
+ "music_seed": 7,
+ "bpm": 118,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "scenes": [
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 11.5,
+   "zoom": "punch",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "नया पेंट...",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "NAYA PAINT...",
+       "white"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.2,
+     "gain": 3
+    },
+    {
+     "vo": [
+      [
+       "जल्दी उतर गया?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "NAYA PAINT...",
+       "white"
+      ],
+      [
+       "JALDI UTAR GAYA?",
+       "yellow"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.3,
+     "pitch": 1.5,
+     "gain": 3
+    },
+    {
+     "vo": [
+      [
+       "ग़लती पेंट की नहीं... सिस्टम की है!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "GALTI PAINT KI NAHI",
+       "white"
+      ],
+      [
+       "SYSTEM KI HAI!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.08,
+     "pause": 0.15
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 3.6,
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "STEP 1-2",
+     "line": 0,
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "एक — घिसाई और सफ़ाई।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "1. GHISAAI",
+       "yellow"
+      ],
+      [
+       "+ SAFAI",
+       "white"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.25
+    },
+    {
+     "vo": [
+      [
+       "दो — पुट्टी, दरारें भरने के लिए।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "2. PUTTY",
+       "yellow"
+      ],
+      [
+       "DARAAREIN BHARO",
+       "white"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.15
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 8.6,
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "STEP 3-4",
+     "line": 0,
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "तीन — प्राइमर!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "3. PRIMER",
+       "yellow"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.15,
+     "pitch": 1,
+     "gain": 2
+    },
+    {
+     "vo": [
+      [
+       "इसे कभी मत छोड़िए!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "3. PRIMER",
+       "yellow"
+      ],
+      [
+       "SKIP MAT KARO!",
+       "white"
+      ]
+     ],
+     "speed": 0.95,
+     "pause": 0.25,
+     "gain": 3
+    },
+    {
+     "vo": [
+      [
+       "चार — पेंट के दो कोट।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "4. DO COAT",
+       "yellow"
+      ],
+      [
+       "PAINT",
+       "white"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.15
+    }
+   ]
+  },
+  {
+   "media": "posted/final-work.mp4",
+   "start": 0.0,
+   "zoom": "in",
+   "pause": 0.2,
+   "lines": [
+    {
+     "vo": [
+      [
+       "तब दीवार ऐसी बनती है!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "TAB DEEWAR",
+       "white"
+      ],
+      [
+       "AISI BANTI HAI!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.15,
+     "pitch": 1,
+     "gain": 2
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "Likhein: \"SYSTEM\"",
+  "subtitle": "Aapki deewar ka sahi paint system",
+  "button": "WhatsApp karein",
+  "bg": "posted/reels/frames/final-room.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "अपनी दीवार का सही सिस्टम जानना है?",
+      "hi"
+     ]
+    ],
+    "speed": 1.08,
+    "pause": 0.15
+   },
+   {
+    "vo": [
+     [
+      "वॉट्सऐप पर लिखिए — सिस्टम!",
+      "hi"
+     ]
+    ],
+    "speed": 1.0,
+    "pause": 0.3,
+    "gain": 2
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 0.95,
+    "pause": 0.15
+   }
+  ]
+ }
+}
