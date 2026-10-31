@@ -173,7 +173,7 @@ class GeminiTTS:
     def create(self, chunks, speed, style=None):
         import base64, re, time
         data = json.dumps(self.body(chunks, speed, style)).encode()
-        for attempt in range(4):
+        for attempt in range(8):   # free tier allows ~3 requests/minute: wait and retry on 429
             req = urllib.request.Request(self.url, data=data, headers={
                 "x-goog-api-key": self.key, "Content-Type": "application/json"})
             try:
@@ -182,8 +182,8 @@ class GeminiTTS:
                 break
             except urllib.error.HTTPError as e:
                 msg = e.read()[:300]
-                if e.code in (429, 500, 503) and attempt < 3:
-                    time.sleep(20 * (attempt + 1))
+                if e.code in (429, 500, 503) and attempt < 7:
+                    time.sleep(25)
                     continue
                 sys.exit(f"Gemini TTS failed: HTTP {e.code} {msg!r}")
         part = d["candidates"][0]["content"]["parts"][0]["inlineData"]
