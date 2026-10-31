@@ -30,8 +30,10 @@
     "logo_big": "engine/assets/logo_big.png"
   },
   "voice": {
-    "engine": "sarvam",
+    "engine": "gemini",
     "fallback": "azure",
+    "gemini_voice": "Koda",
+    "clone_engine": "sarvam",
     "azure_voice": "hi-IN-MadhurNeural",
     "sarvam_voice_id": "svc-38314a5f-36dc-4276-98da-94973af10cec",
     "opensource_ref": "bharatpaintsvoice-",

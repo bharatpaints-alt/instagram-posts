@@ -70,7 +70,9 @@ def main(spec_path, out_path):
     spec = json.load(open(spec_path))
     work = os.path.join(m.CACHE, "story")
     os.makedirs(work, exist_ok=True)
-    if spec.get("azure_voice"):
+    if spec.get("gemini_voice"):
+        voice = m.GeminiTTS(spec["gemini_voice"], spec.get("gemini_style"), work, spec.get("gemini_model"))
+    elif spec.get("azure_voice"):
         voice = m.AzureTTS(spec["azure_voice"], work)
     else:
         voice = m.Piper(spec.get("piper", "hi_IN-rohan-medium"), m.load_tts())

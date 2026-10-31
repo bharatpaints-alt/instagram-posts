@@ -2,6 +2,7 @@
 """Make a quick voiceover sample to compare voices.
 
   python3 engine/voice_sample.py azure  out.wav      # needs AZURE_SPEECH_KEY (+ AZURE_SPEECH_REGION)
+  python3 engine/voice_sample.py gemini out.wav      # needs GEMINI_API_KEY (voice Koda, TV-ad style)
   python3 engine/voice_sample.py piper  out.wav      # free built-in Hindi voice, no key
 Optional 3rd arg: Azure voice name (default hi-IN-MadhurNeural; female: hi-IN-SwaraNeural).
 """
@@ -23,11 +24,18 @@ SCRIPT = [
 ]
 
 
+STYLE = ("Energetic Indian Hindi TV-ad announcer, deep commanding voice, natural Hindi accent, dramatic pauses, "
+         "urgent at the start, confident in the middle, excited at the end")
+
+
 def main(engine, out, voice="hi-IN-MadhurNeural"):
     work = os.path.join(m.CACHE, "sample")
     os.makedirs(work, exist_ok=True)
     parts, sr = [], 24000
-    if engine == "azure":
+    if engine == "gemini":
+        tts = m.GeminiTTS(voice if voice != "hi-IN-MadhurNeural" else "Koda", STYLE, work)
+        make = lambda t, s, p: tts.create([(t, "hi")], s)
+    elif engine == "azure":
         tts = m.AzureTTS(voice, work)
         make = lambda t, s, p: tts.create([(t, "hi")], s, p)
     else:

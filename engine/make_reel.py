@@ -149,6 +149,56 @@ class AzureTTS:
         return (a if a.ndim == 1 else a.mean(1)), sr
 
 
+class GeminiTTS:
+    """Google Gemini TTS (AI Studio key; free tier has daily request limits). Expressive, steered by a plain-words
+    style prompt, e.g. "Energetic Indian Hindi TV-ad announcer, deep commanding voice, dramatic pauses".
+    Key from GEMINI_API_KEY env var or ~/.gemini_key. Model from spec gemini_model / GEMINI_TTS_MODEL."""
+
+    def __init__(self, voice, style, work, model=None):
+        self.voice, self.style, self.work = voice, style or "", work
+        self.key = os.environ.get("GEMINI_API_KEY") or open(os.path.expanduser("~/.gemini_key")).read().strip()
+        self.model = model or os.environ.get("GEMINI_TTS_MODEL", "gemini-3.8-flash-tts")
+        base = os.environ.get("GEMINI_ENDPOINT", "https://generativelanguage.googleapis.com/v1beta/models/")
+        self.url = f"{base}{self.model}:generateContent"
+
+    def body(self, chunks, speed, style=None):
+        text = " ".join(t for t, _ in chunks)
+        st = style or self.style
+        pace = " Speak a little slowly." if speed < 0.9 else (" Speak briskly." if speed > 1.05 else "")
+        prompt = f"{st}.{pace} Say:\n{text}" if st else text
+        return {"contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"responseModalities": ["AUDIO"],
+                                     "speechConfig": {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": self.voice}}}}}
+
+    def create(self, chunks, speed, style=None):
+        import base64, re, time
+        data = json.dumps(self.body(chunks, speed, style)).encode()
+        for attempt in range(4):
+            req = urllib.request.Request(self.url, data=data, headers={
+                "x-goog-api-key": self.key, "Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=120) as r:
+                    d = json.loads(r.read())
+                break
+            except urllib.error.HTTPError as e:
+                msg = e.read()[:300]
+                if e.code in (429, 500, 503) and attempt < 3:
+                    time.sleep(20 * (attempt + 1))
+                    continue
+                sys.exit(f"Gemini TTS failed: HTTP {e.code} {msg!r}")
+        part = d["candidates"][0]["content"]["parts"][0]["inlineData"]
+        raw = base64.b64decode(part["data"])
+        mime = part.get("mimeType", "")
+        if mime.startswith("audio/wav") or raw[:4] == b"RIFF":
+            import io
+            a, sr = sf.read(io.BytesIO(raw), dtype="float32")
+        else:  # audio/L16;codec=pcm;rate=24000 -> signed 16-bit little-endian mono
+            m_ = re.search(r"rate=(\d+)", mime)
+            sr = int(m_.group(1)) if m_ else 24000
+            a = np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0
+        return (a if a.ndim == 1 else a.mean(1)), sr
+
+
 def build_voice_from_files(spec, work):
     """Use ready-made WAVs (Gaurav's cloned voice, or his own recording).
     Per scene i (CTA = last): either seg_XX.wav (one file), or seg_XX_YY.wav (one file per line, so pop-text
@@ -196,6 +246,8 @@ def build_voice(spec, work):
         piper = SarvamClone(spec["sarvam_voice"], work)
     if spec.get("azure_voice"):
         piper = AzureTTS(spec["azure_voice"], work)
+    if spec.get("gemini_voice"):
+        piper = GeminiTTS(spec["gemini_voice"], spec.get("gemini_style"), work, spec.get("gemini_model"))
     for part in spec.get("voice", "hm_omega:0.65,am_onyx:0.35").split(","):
         v, w = part.split(":")
         s = k.get_voice_style(v) * float(w)
@@ -214,8 +266,11 @@ def build_voice(spec, work):
     for si, (lines, scene_pause) in enumerate(segs):
         t, tim = 0.0, []
         for li, ln in enumerate(lines):
-            if spec.get("azure_voice"):   # Azure does speed + pitch itself via SSML prosody
+            if spec.get("azure_voice") and not spec.get("gemini_voice"):   # Azure: speed + pitch via SSML
                 a, sr = piper.create(ln["vo"], ln.get("speed", 0.95), ln.get("pitch", 0))
+                ln = {**ln, "pitch": 0}
+            elif spec.get("gemini_voice"):   # Gemini: expression from the style prompt (+ optional per-line style)
+                a, sr = piper.create(ln["vo"], ln.get("speed", 0.95), ln.get("style"))
                 ln = {**ln, "pitch": 0}
             else:
                 a, sr = speak(k, style, ln["vo"], ln.get("speed", 0.95))
@@ -238,7 +293,7 @@ def build_voice(spec, work):
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
     chain = ("highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2"
-             if spec.get("sarvam_voice") or spec.get("azure_voice") else VOICE_CHAIN)
+             if spec.get("sarvam_voice") or spec.get("azure_voice") or spec.get("gemini_voice") else VOICE_CHAIN)
     run(f"ffmpeg -v error -y -i {raw} -af \"{chain}\" -ar 24000 {work}/vo.wav")
     return durs, timings
 
