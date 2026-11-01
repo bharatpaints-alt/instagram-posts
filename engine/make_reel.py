@@ -199,7 +199,8 @@ def build_voice(spec, work):
     raw = os.path.join(work, "vo_raw.wav")
     sf.write(raw, np.concatenate(out), sr)
     chain = ("highpass=f=70,equalizer=f=3500:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=2"
-             if spec.get("sarvam_voice") else VOICE_CHAIN)
+             if spec.get("sarvam_voice") else
+             (VOICE_CHAIN if spec.get("voice_echo", True) else VOICE_CHAIN.replace(",aecho=0.8:0.5:28:0.08", "")))
     run(f"ffmpeg -v error -y -i {raw} -af \"{chain}\" -ar 24000 {work}/vo.wav")
     return durs, timings
 
