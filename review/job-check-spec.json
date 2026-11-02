@@ -240,20 +240,20 @@
   }
  ],
  "cta": {
-  "title": "Likhein: \"CHECK\"",
-  "subtitle": "Painting check karwani hai?",
-  "button": "WhatsApp karein",
+  "title": "Comment karein: \"INFO\"",
+  "subtitle": "Painting check ki jaankari DM mein",
+  "button": "Ya WhatsApp karein",
   "bg": "posted/reels/frames/final-room.jpg",
   "lines": [
    {
     "vo": [
      [
-      "वॉट्सऐप पर लिखिए — चेक!",
+      "कमेंट में लिखिए — इन्फ़ो! जानकारी सीधे डीएम में!",
       "hi"
      ]
     ],
     "speed": 1.0,
-    "pause": 0.35,
+    "pause": 0.3,
     "gain": 3
    },
    {

@@ -241,9 +241,9 @@
   }
  ],
  "cta": {
-  "title": "Likhein: \"SYSTEM\"",
-  "subtitle": "Aapki deewar ka sahi paint system",
-  "button": "WhatsApp karein",
+  "title": "Comment karein: \"INFO\"",
+  "subtitle": "Sahi paint system DM mein milega",
+  "button": "Ya WhatsApp karein",
   "bg": "posted/reels/frames/final-room.jpg",
   "lines": [
    {
@@ -259,13 +259,13 @@
    {
     "vo": [
      [
-      "वॉट्सऐप पर लिखिए — सिस्टम!",
+      "कमेंट में लिखिए — इन्फ़ो! जानकारी सीधे डीएम में!",
       "hi"
      ]
     ],
     "speed": 1.0,
     "pause": 0.3,
-    "gain": 2
+    "gain": 3
    },
    {
     "vo": [
