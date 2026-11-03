@@ -1,0 +1,267 @@
+{
+ "topic": "Seelan wali deewar: pehle kaaran aur ilaaj, phir paint",
+ "piper": "hi_IN-rohan-medium",
+ "music_seed": 19,
+ "bpm": 116,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "scenes": [
+  {
+   "media": "review/cards/damp-wall-card.png",
+   "zoom": "punch",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "दीवार में सीलन?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "DEEWAR MEIN SEELAN?",
+       "white"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.25,
+     "gain": 2,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "ऊपर से नया पेंट? रुको!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "UPAR SE NAYA PAINT?",
+       "white"
+      ],
+      [
+       "RUKO!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.12,
+     "pause": 0.25,
+     "gain": 3,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "review/cards/damp-wall-card.png",
+   "zoom": "in",
+   "pan": 0.5,
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "पेंट नमी नहीं रोकता।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PAINT NAMI",
+       "white"
+      ],
+      [
+       "NAHI ROKTA!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "नमी अंदर से धक्का देगी... पपड़ी उतरेगी!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PAPDI",
+       "white"
+      ],
+      [
+       "UTREGI!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.3,
+     "gain": 2,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "review/cards/seepage-fix-card.png",
+   "zoom": "in",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "पहले कारण पकड़ो। नमी कहाँ से आ रही है?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PEHLE KAARAN",
+       "yellow"
+      ],
+      [
+       "PAKDO",
+       "white"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "फिर इलाज करो, दीवार सुखाओ।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PHIR ILAAJ",
+       "yellow"
+      ],
+      [
+       "+ DEEWAR SUKHAO",
+       "white"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.3,
+     "gain": 1,
+     "pitch": 0
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 0.5,
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "SAHI KRAM",
+     "line": 0,
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "तब प्राइमर... फिर पेंट।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "TAB PRIMER",
+       "yellow"
+      ],
+      [
+       "PHIR PAINT",
+       "white"
+      ]
+     ],
+     "speed": 0.95,
+     "pause": 0.25,
+     "gain": 0,
+     "pitch": 0
+    }
+   ]
+  },
+  {
+   "media": "posted/final-work.mp4",
+   "start": 2.0,
+   "zoom": "in",
+   "pause": 0.2,
+   "lines": [
+    {
+     "vo": [
+      [
+       "तभी पेंट टिकेगा!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "TABHI",
+       "white"
+      ],
+      [
+       "PAINT TIKEGA!",
+       "yellow"
+      ]
+     ],
+     "speed": 0.95,
+     "pause": 0.3,
+     "gain": 3,
+     "pitch": -0.5
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "WhatsApp karein: \"SEELAN\"",
+  "subtitle": "Site visit + report: kaaran aur ilaaj",
+  "button": "WhatsApp karein",
+  "bg": "posted/reels/frames/final-room.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "सीलन की जाँच चाहिए? वॉट्सऐप पर लिखो — सीलन!",
+      "hi"
+     ]
+    ],
+    "speed": 1.0,
+    "pause": 0.3,
+    "gain": 3
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 0.92,
+    "pause": 0.2,
+    "gain": 1
+   }
+  ]
+ },
+ "voice_echo": false
+}
