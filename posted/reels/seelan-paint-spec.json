@@ -17,7 +17,7 @@
  },
  "scenes": [
   {
-   "media": "review/cards/damp-wall-card.png",
+   "media": "posted/reels/cards/damp-wall-card.png",
    "zoom": "punch",
    "pause": 0.1,
    "lines": [
@@ -64,7 +64,7 @@
    ]
   },
   {
-   "media": "review/cards/damp-wall-card.png",
+   "media": "posted/reels/cards/damp-wall-card.png",
    "zoom": "in",
    "pan": 0.5,
    "pause": 0.1,
@@ -116,7 +116,7 @@
    ]
   },
   {
-   "media": "review/cards/seepage-fix-card.png",
+   "media": "posted/reels/cards/seepage-fix-card.png",
    "zoom": "in",
    "pause": 0.1,
    "lines": [
