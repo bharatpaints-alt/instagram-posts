@@ -1,0 +1,259 @@
+{
+ "topic": "Primer kyun zaroori: paint ki pakad",
+ "piper": "hi_IN-rohan-medium",
+ "music_seed": 23,
+ "bpm": 118,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "voice_echo": false,
+ "scenes": [
+  {
+   "media": "posted/reels/cards/peeling-wall-card.png",
+   "zoom": "punch",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "नया पेंट... जल्दी उतर गया?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "NAYA PAINT...",
+       "white"
+      ],
+      [
+       "JALDI UTAR GAYA?",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.25,
+     "gain": 2,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "कहीं प्राइमर तो नहीं छोड़ा?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PRIMER SKIP",
+       "yellow"
+      ],
+      [
+       "KIYA THA?",
+       "white"
+      ]
+     ],
+     "speed": 1.15,
+     "pause": 0.25,
+     "gain": 3,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "posted/reels/cards/primer-layers-card.png",
+   "zoom": "in",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "प्राइमर ही पेंट को दीवार से पकड़ाता है।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PRIMER =",
+       "white"
+      ],
+      [
+       "PAINT KI PAKAD",
+       "yellow"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "बिना प्राइमर... पकड़ कमज़ोर!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "BINA PRIMER",
+       "white"
+      ],
+      [
+       "PAKAD KAMZOR!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.3,
+     "gain": 2,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "posted/reels/cards/primer-steps-card.png",
+   "zoom": "in",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "सही क्रम — सफ़ाई, पुट्टी, प्राइमर...",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "SAHI KRAM",
+       "yellow"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "फिर पेंट के दो कोट।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PHIR PAINT",
+       "white"
+      ],
+      [
+       "2 COAT",
+       "yellow"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.3,
+     "gain": 1,
+     "pitch": 0
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 0.5,
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "प्राइमर के बाद ही रंग चढ़ाओ।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PRIMER KE BAAD",
+       "yellow"
+      ],
+      [
+       "HI RANG",
+       "white"
+      ]
+     ],
+     "speed": 1.03,
+     "pause": 0.2,
+     "gain": 0,
+     "pitch": 0
+    }
+   ]
+  },
+  {
+   "media": "posted/final-work.mp4",
+   "start": 2.0,
+   "zoom": "in",
+   "pause": 0.2,
+   "lines": [
+    {
+     "vo": [
+      [
+       "तभी पेंट टिकेगा, फिनिश एक जैसी!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "PAINT TIKEGA",
+       "yellow"
+      ],
+      [
+       "FINISH EK JAISI!",
+       "white"
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.3,
+     "gain": 3,
+     "pitch": -0.5
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "WhatsApp karein: \"PRIMER\"",
+  "subtitle": "Sahi primer ki jaankari",
+  "button": "WhatsApp karein",
+  "bg": "posted/reels/frames/final-room.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "वॉट्सऐप पर लिखिए — प्राइमर!",
+      "hi"
+     ]
+    ],
+    "speed": 1.0,
+    "pause": 0.3,
+    "gain": 3
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 0.92,
+    "pause": 0.2,
+    "gain": 1
+   }
+  ]
+ }
+}
