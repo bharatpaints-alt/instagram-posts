@@ -1,0 +1,281 @@
+{
+ "topic": "Andar ka paint bahar nahi: Interior vs Exterior",
+ "piper": "hi_IN-rohan-medium",
+ "music_seed": 31,
+ "bpm": 118,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "voice_echo": false,
+ "scenes": [
+  {
+   "media": "posted/reels/cards/exterior-fade-card.png",
+   "zoom": "punch",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "रुको! अंदर वाला पेंट...",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "RUKO!",
+       "yellow"
+      ],
+      [
+       "ANDAR WALA PAINT...",
+       "white"
+      ]
+     ],
+     "speed": 1.15,
+     "pause": 0.15,
+     "gain": 3,
+     "pitch": 1
+    },
+    {
+     "vo": [
+      [
+       "बाहर मत लगाना!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "BAHAR",
+       "white"
+      ],
+      [
+       "MAT LAGANA!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.17,
+     "pause": 0.18,
+     "gain": 3,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "posted/reels/cards/exterior-fade-card.png",
+   "zoom": "in",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "धूप, बारिश, धूल में...",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "DHOOP, BAARISH,",
+       "white"
+      ],
+      [
+       "DHOOL",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "अंदर वाला पेंट जल्दी फीका!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "ANDAR WALA PAINT",
+       "white"
+      ],
+      [
+       "JALDI FEEKA!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.13,
+     "pause": 0.18,
+     "gain": 2,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "posted/reels/cards/andar-bahar-card.png",
+   "zoom": "in",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "बाहर के लिए — एक्सटीरियर पेंट।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "BAHAR =",
+       "white"
+      ],
+      [
+       "EXTERIOR PAINT",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 1,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "अंदर के लिए — इंटीरियर पेंट।",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "ANDAR =",
+       "white"
+      ],
+      [
+       "INTERIOR PAINT",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.18,
+     "gain": 1,
+     "pitch": 0
+    }
+   ]
+  },
+  {
+   "media": "posted/IMG_2860.jpeg",
+   "zoom": "in",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "डिब्बे पर देखो —",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "DIBBE PE DEKHO",
+       "yellow"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.1,
+     "gain": 0,
+     "pitch": 0
+    },
+    {
+     "vo": [
+      [
+       "इंटीरियर या एक्सटीरियर?",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "INTERIOR YA",
+       "white"
+      ],
+      [
+       "EXTERIOR?",
+       "yellow"
+      ]
+     ],
+     "speed": 1.13,
+     "pause": 0.18,
+     "gain": 2,
+     "pitch": 1
+    }
+   ]
+  },
+  {
+   "media": "posted/final-work.mp4",
+   "start": 2.0,
+   "zoom": "in",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "सही जगह, सही पेंट... तभी रंग टिकेगा!",
+       "hi"
+      ]
+     ],
+     "show": [
+      [
+       "SAHI JAGAH,",
+       "white"
+      ],
+      [
+       "SAHI PAINT!",
+       "yellow"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.18,
+     "gain": 3,
+     "pitch": -0.5
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "WhatsApp karein: \"EXTERIOR\"",
+  "subtitle": "Sahi paint ki jaankari",
+  "button": "WhatsApp karein",
+  "bg": "posted/reels/frames/final-room.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "वॉट्सऐप पर लिखिए — एक्सटीरियर!",
+      "hi"
+     ]
+    ],
+    "speed": 1.0,
+    "pause": 0.3,
+    "gain": 3
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 0.92,
+    "pause": 0.2,
+    "gain": 1
+   }
+  ]
+ }
+}
