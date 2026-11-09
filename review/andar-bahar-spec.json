@@ -1,6 +1,5 @@
 {
  "topic": "Andar ka paint bahar nahi: Interior vs Exterior",
- "piper": "hi_IN-rohan-medium",
  "music_seed": 31,
  "bpm": 118,
  "music_volume": 0.55,
@@ -18,7 +17,8 @@
  "voice_echo": false,
  "scenes": [
   {
-   "media": "posted/reels/cards/exterior-fade-card.png",
+   "media": "posted/final-work.mp4",
+   "start": 0.3,
    "zoom": "punch",
    "pause": 0.05,
    "lines": [
@@ -29,6 +29,10 @@
        "hi"
       ]
      ],
+     "speed": 1.15,
+     "pause": 0.12,
+     "gain": 3,
+     "pitch": 1,
      "show": [
       [
        "RUKO!",
@@ -38,11 +42,7 @@
        "ANDAR WALA PAINT...",
        "white"
       ]
-     ],
-     "speed": 1.15,
-     "pause": 0.15,
-     "gain": 3,
-     "pitch": 1
+     ]
     },
     {
      "vo": [
@@ -51,6 +51,10 @@
        "hi"
       ]
      ],
+     "speed": 1.17,
+     "pause": 0.15,
+     "gain": 3,
+     "pitch": 1,
      "show": [
       [
        "BAHAR",
@@ -60,18 +64,12 @@
        "MAT LAGANA!",
        "yellow"
       ]
-     ],
-     "speed": 1.17,
-     "pause": 0.18,
-     "gain": 3,
-     "pitch": 1
+     ]
     }
    ]
   },
   {
    "media": "posted/reels/cards/exterior-fade-card.png",
-   "zoom": "in",
-   "pause": 0.05,
    "lines": [
     {
      "vo": [
@@ -80,6 +78,10 @@
        "hi"
       ]
      ],
+     "speed": 1.12,
+     "pause": 0.1,
+     "gain": 0,
+     "pitch": 0,
      "show": [
       [
        "DHOOP, BAARISH,",
@@ -89,11 +91,7 @@
        "DHOOL",
        "yellow"
       ]
-     ],
-     "speed": 1.1,
-     "pause": 0.15,
-     "gain": 0,
-     "pitch": 0
+     ]
     },
     {
      "vo": [
@@ -102,6 +100,10 @@
        "hi"
       ]
      ],
+     "speed": 1.13,
+     "pause": 0.18,
+     "gain": 2,
+     "pitch": 1,
      "show": [
       [
        "ANDAR WALA PAINT",
@@ -111,18 +113,13 @@
        "JALDI FEEKA!",
        "yellow"
       ]
-     ],
-     "speed": 1.13,
-     "pause": 0.18,
-     "gain": 2,
-     "pitch": 1
+     ]
     }
    ]
   },
   {
-   "media": "posted/reels/cards/andar-bahar-card.png",
-   "zoom": "in",
-   "pause": 0.05,
+   "media": "posted/painting-in-progress.mp4",
+   "start": 11.5,
    "lines": [
     {
      "vo": [
@@ -131,6 +128,10 @@
        "hi"
       ]
      ],
+     "speed": 1.1,
+     "pause": 0.12,
+     "gain": 1,
+     "pitch": 0,
      "show": [
       [
        "BAHAR =",
@@ -140,11 +141,7 @@
        "EXTERIOR PAINT",
        "yellow"
       ]
-     ],
-     "speed": 1.1,
-     "pause": 0.15,
-     "gain": 1,
-     "pitch": 0
+     ]
     },
     {
      "vo": [
@@ -153,6 +150,10 @@
        "hi"
       ]
      ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 1,
+     "pitch": 0,
      "show": [
       [
        "ANDAR =",
@@ -162,66 +163,41 @@
        "INTERIOR PAINT",
        "yellow"
       ]
-     ],
-     "speed": 1.1,
-     "pause": 0.18,
-     "gain": 1,
-     "pitch": 0
+     ]
     }
    ]
   },
   {
    "media": "posted/IMG_2860.jpeg",
    "zoom": "in",
-   "pause": 0.05,
    "lines": [
     {
      "vo": [
       [
-       "डिब्बे पर देखो —",
+       "डिब्बे पर देखो — इंटीरियर या एक्सटीरियर?",
        "hi"
       ]
      ],
+     "speed": 1.12,
+     "pause": 0.15,
+     "gain": 2,
+     "pitch": 1,
      "show": [
       [
-       "DIBBE PE DEKHO",
+       "DIBBE PE DEKHO:",
        "yellow"
-      ]
-     ],
-     "speed": 1.1,
-     "pause": 0.1,
-     "gain": 0,
-     "pitch": 0
-    },
-    {
-     "vo": [
-      [
-       "इंटीरियर या एक्सटीरियर?",
-       "hi"
-      ]
-     ],
-     "show": [
-      [
-       "INTERIOR YA",
-       "white"
       ],
       [
-       "EXTERIOR?",
-       "yellow"
+       "INTERIOR YA EXTERIOR?",
+       "white"
       ]
-     ],
-     "speed": 1.13,
-     "pause": 0.18,
-     "gain": 2,
-     "pitch": 1
+     ]
     }
    ]
   },
   {
    "media": "posted/final-work.mp4",
-   "start": 2.0,
-   "zoom": "in",
-   "pause": 0.05,
+   "start": 8,
    "lines": [
     {
      "vo": [
@@ -230,6 +206,10 @@
        "hi"
       ]
      ],
+     "speed": 1.05,
+     "pause": 0.18,
+     "gain": 3,
+     "pitch": -0.5,
      "show": [
       [
        "SAHI JAGAH,",
@@ -239,31 +219,28 @@
        "SAHI PAINT!",
        "yellow"
       ]
-     ],
-     "speed": 1.05,
-     "pause": 0.18,
-     "gain": 3,
-     "pitch": -0.5
+     ]
     }
    ]
   }
  ],
  "cta": {
-  "title": "WhatsApp karein: \"EXTERIOR\"",
-  "subtitle": "Sahi paint ki jaankari",
-  "button": "WhatsApp karein",
+  "title": "Comment karein: \"EXTERIOR\"",
+  "subtitle": "Sahi paint ki jaankari DM mein",
+  "button": "Ya WhatsApp karein",
   "bg": "posted/reels/frames/final-room.jpg",
   "lines": [
    {
     "vo": [
      [
-      "वॉट्सऐप पर लिखिए — एक्सटीरियर!",
+      "कमेंट में लिखिए — एक्सटीरियर! जानकारी सीधे डीएम में।",
       "hi"
      ]
     ],
-    "speed": 1.0,
-    "pause": 0.3,
-    "gain": 3
+    "speed": 1.08,
+    "pause": 0.15,
+    "gain": 3,
+    "pitch": 0
    },
    {
     "vo": [
@@ -272,10 +249,12 @@
       "hi"
      ]
     ],
-    "speed": 0.92,
+    "speed": 1.0,
     "pause": 0.2,
-    "gain": 1
+    "gain": 1,
+    "pitch": 0
    }
   ]
- }
+ },
+ "voice": "hm_omega:0.7,hm_psi:0.3"
 }

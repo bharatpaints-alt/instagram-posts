@@ -435,9 +435,9 @@ def render_cta(work, spec, dur, bg_media):
         f"drawtext=fontfile={FONT}:textfile={T('e5', c.get('button', 'WhatsApp karein'))}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=910:enable='gte(t,1.2)'",
         f"drawtext=fontfile={FONT}:textfile={T('e6', b['whatsapp'])}:fontcolor=white:fontsize='110*(1+0.045*sin(2*PI*1.6*t))':x=(w-tw)/2:y=1050-th/2:enable='gte(t,1.2)'",
         f"drawtext=fontfile={FONT}:textfile={T('e7', b['address'])}:fontcolor=0xDDDDDD:fontsize=42:x=(w-tw)/2:y=1190:alpha='min(1,(t-1.6)/0.4)'",
-        f"drawtext=fontfile={FONT}:textfile={T('e8', b['tagline1'])}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=1360:alpha='min(1,(t-3.5)/0.5)'",
-        f"drawtext=fontfile={FONT}:textfile={T('e9', b['tagline2'])}:fontcolor={Y}:fontsize=58:x=(w-tw)/2:y=1430:alpha='min(1,(t-3.7)/0.5)'",
-        f"drawtext=fontfile={FONT}:textfile={T('e10', 'Follow ' + b['handle'])}:fontcolor=white:fontsize=40:box=1:boxcolor=black@0.5:boxborderw=16:x=(w-tw)/2:y=1540:alpha='min(1,(t-4.3)/0.5)'",
+        f"drawtext=fontfile={FONT}:textfile={T('e8', b['tagline1'])}:fontcolor=white:fontsize=50:x=(w-tw)/2:y=1360:alpha='min(1,(t-2.0)/0.4)'",
+        f"drawtext=fontfile={FONT}:textfile={T('e9', b['tagline2'])}:fontcolor={Y}:fontsize=58:x=(w-tw)/2:y=1430:alpha='min(1,(t-2.2)/0.4)'",
+        f"drawtext=fontfile={FONT}:textfile={T('e10', 'Follow ' + b['handle'])}:fontcolor=white:fontsize=40:box=1:boxcolor=black@0.5:boxborderw=16:x=(w-tw)/2:y=1540:alpha='min(1,(t-2.6)/0.4)'",
     ]
     zp = f"zoompan=z='1.1':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1080x1920:fps={FPS}"
     out = os.path.join(work, "cta.mp4")
