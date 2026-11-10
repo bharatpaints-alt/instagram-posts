@@ -25,24 +25,38 @@
     {
      "vo": [
       [
-       "रुको! अंदर वाला पेंट...",
+       "रुको!",
        "hi"
       ]
      ],
-     "speed": 1.15,
-     "pause": 0.12,
-     "gain": 3,
-     "pitch": 1,
      "show": [
       [
        "RUKO!",
        "yellow"
-      ],
+      ]
+     ],
+     "speed": 1.0,
+     "pause": 0.65,
+     "gain": 4,
+     "pitch": 1
+    },
+    {
+     "vo": [
+      [
+       "अंदर वाला पेंट...",
+       "hi"
+      ]
+     ],
+     "show": [
       [
        "ANDAR WALA PAINT...",
        "white"
       ]
-     ]
+     ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 2,
+     "pitch": 0
     },
     {
      "vo": [
@@ -51,10 +65,6 @@
        "hi"
       ]
      ],
-     "speed": 1.17,
-     "pause": 0.15,
-     "gain": 3,
-     "pitch": 1,
      "show": [
       [
        "BAHAR",
@@ -64,7 +74,11 @@
        "MAT LAGANA!",
        "yellow"
       ]
-     ]
+     ],
+     "speed": 1.15,
+     "pause": 0.15,
+     "gain": 3,
+     "pitch": 1
     }
    ]
   },
