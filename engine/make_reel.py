@@ -453,7 +453,7 @@ def main(spec_path, out_path):
     os.makedirs(work, exist_ok=True)
     lead = spec.get("lead", 0.4)         # silence before the first word
     durs, timings = build_voice(spec, work)
-    durs[-1] += 1.6                      # hold the end card after the last word
+    durs[-1] += spec.get("cta_hold", 1.6)  # hold the end card after the last word
     durs[0] += lead
     timings[0] = [(a + lead, b + lead) for a, b in timings[0]]
     total = sum(durs)

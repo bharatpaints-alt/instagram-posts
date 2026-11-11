@@ -1,0 +1,286 @@
+{
+ "topic": "Putty ki ghisai: side light mein lehrein na dikhein",
+ "music_seed": 37,
+ "bpm": 118,
+ "music_volume": 0.55,
+ "sfx": true,
+ "lead": 0.1,
+ "brand": {
+  "logo_small": "engine/assets/logo_small.png",
+  "logo_big": "engine/assets/logo_big.png",
+  "whatsapp": "93558 60009",
+  "address": "SCO 30, Bhagat Singh Market, Karnal",
+  "tagline1": "Rango ki duniya main rakhe kadam",
+  "tagline2": "Bharat Paints ke sang!",
+  "handle": "@bharatpaints_1976"
+ },
+ "voice_echo": false,
+ "voice": "hm_omega:0.7,hm_psi:0.3",
+ "ai_generated_media": [
+  "new/sidelight-wall-cg.mp4 (computer-generated side-light demo, not a Bharat Paints job)"
+ ],
+ "scenes": [
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 13.0,
+   "zoom": "punch",
+   "pause": 0.05,
+   "lines": [
+    {
+     "vo": [
+      [
+       "पुट्टी के बाद...",
+       "hi"
+      ]
+     ],
+     "speed": 1.12,
+     "pause": 0.15,
+     "gain": 3,
+     "pitch": 1,
+     "show": [
+      [
+       "PUTTY KE BAAD...",
+       "white"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "घिसाई की?",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.2,
+     "gain": 3,
+     "pitch": 1,
+     "show": [
+      [
+       "GHISAI KI?",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "new/sidelight-wall-cg.mp4",
+   "start": 0.5,
+   "zoom": "in",
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "CG DEMO",
+     "bg": "white",
+     "from": 0,
+     "to": "line1",
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "कच्ची घिसाई? साइड लाइट में लहरें, धब्बे!",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.12,
+     "gain": 2,
+     "pitch": 0,
+     "show": [
+      [
+       "LEHREIN,",
+       "yellow"
+      ],
+      [
+       "DHABBE!",
+       "yellow"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "पेंट इन्हें छुपा नहीं पाता।",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0,
+     "show": [
+      [
+       "PAINT CHHUPA",
+       "white"
+      ],
+      [
+       "NAHI PAATA!",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 6.2,
+   "zoom": "in",
+   "pause": 0.1,
+   "tags": [
+    {
+     "text": "SAHI TARIKA",
+     "line": 0,
+     "y": 1180
+    }
+   ],
+   "lines": [
+    {
+     "vo": [
+      [
+       "एक — पुट्टी की पतली परत।",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.12,
+     "gain": 0,
+     "pitch": 0,
+     "show": [
+      [
+       "1. PUTTY KI",
+       "yellow"
+      ],
+      [
+       "PATLI PARAT",
+       "white"
+      ]
+     ]
+    },
+    {
+     "vo": [
+      [
+       "दो — सूखने दो, फिर घिसाई।",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.15,
+     "gain": 0,
+     "pitch": 0,
+     "show": [
+      [
+       "2. SUKHNE DO,",
+       "yellow"
+      ],
+      [
+       "PHIR GHISAI",
+       "white"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "posted/painting-in-progress.mp4",
+   "start": 1.2,
+   "zoom": "in",
+   "pause": 0.1,
+   "lines": [
+    {
+     "vo": [
+      [
+       "तीन — टॉर्च तिरछी मारो, सब बराबर? तब प्राइमर!",
+       "hi"
+      ]
+     ],
+     "speed": 1.1,
+     "pause": 0.12,
+     "gain": 0,
+     "pitch": 0,
+     "show": [
+      [
+       "3. TORCH SE",
+       "yellow"
+      ],
+      [
+       "CHECK KARO,",
+       "white"
+      ],
+      [
+       "TAB PRIMER!",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "media": "posted/final-work.mp4",
+   "start": 5.0,
+   "zoom": "in",
+   "pause": 0.2,
+   "lines": [
+    {
+     "vo": [
+      [
+       "तभी दीवार चिकनी, फिनिश साफ़!",
+       "hi"
+      ]
+     ],
+     "speed": 1.05,
+     "pause": 0.2,
+     "gain": 3,
+     "pitch": -0.5,
+     "show": [
+      [
+       "DEEWAR CHIKNI,",
+       "white"
+      ],
+      [
+       "FINISH SAAF!",
+       "yellow"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "cta": {
+  "title": "Comment karein: \"PUTTY\"",
+  "subtitle": "Putty ki jaankari DM mein",
+  "button": "Ya WhatsApp karein",
+  "bg": "posted/reels/frames/final-room.jpg",
+  "lines": [
+   {
+    "vo": [
+     [
+      "कमेंट में लिखिए — पुट्टी! जानकारी सीधे डीएम में।",
+      "hi"
+     ]
+    ],
+    "speed": 1.35,
+    "pause": 0.08,
+    "gain": 3,
+    "pitch": 0
+   },
+   {
+    "vo": [
+     [
+      "रंगों की दुनिया में रखें कदम... भारत पेंट्स के संग!",
+      "hi"
+     ]
+    ],
+    "speed": 1.3,
+    "pause": 0.05,
+    "gain": 1,
+    "pitch": 0
+   }
+  ],
+  "pause": 0.1
+ },
+ "cta_hold": 0.35
+}
